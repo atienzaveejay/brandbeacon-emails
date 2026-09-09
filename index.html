@@ -1,558 +1,74 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Brand Beacon Lifecycle Emails</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brand Beacon lifecycle emails, our version</title>
 <style>
-/* Component language lifted from bb-2.0-mockups-rev6/MailWeekly.dc.html.
-   Ivan's 28 Aug rule: nothing on a white card is lighter than #33312c. */
-*,*::before,*::after{box-sizing:border-box}
-body{margin:0;font-family:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
-  background:#f3f2ef;color:#0b0b0b;-webkit-font-smoothing:antialiased}
-a{color:#945e00;text-decoration:none}
-
-/* ---------- page chrome ---------- */
-.top{background:#ffffff;border-bottom:1px solid rgba(0,0,0,.06);padding:34px 30px 26px}
-.top .inner{max-width:1320px;margin:0 auto}
-.kicker{display:inline-flex;align-items:center;gap:10px;color:#26241f;font-size:.75rem;
-  font-weight:700;text-transform:uppercase;letter-spacing:.16em;margin:0 0 14px}
-.kicker::before{content:"";width:20px;height:2px;border-radius:6px;background:#ffc629}
-h1.page{margin:0 0 10px;font-size:2.5rem;line-height:1.04;font-weight:800;letter-spacing:-.045em}
-.sub{margin:0;max-width:640px;color:#26241f;font-size:1rem;line-height:1.6;font-weight:500}
-.nav{max-width:1320px;margin:0 auto;padding:22px 30px 30px;display:flex;flex-wrap:wrap;gap:24px}
-.navgrp{display:flex;flex-direction:column;gap:4px;min-width:190px}
-.navh{color:#33312c;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;
-  padding-bottom:4px;border-bottom:1px solid rgba(0,0,0,.09);margin-bottom:3px}
-.nav a{display:flex;gap:10px;color:#0b0b0b;font-size:.88rem;font-weight:600;padding:2px 0}
-.nav a b{font-family:ui-monospace,Menlo,monospace;color:#945e00;font-size:.75rem;font-weight:700}
-.nav a:hover{color:#945e00}
-.nav a:focus-visible{outline:2px solid #ffc629;outline-offset:2px;border-radius:6px}
-
-/* ---------- board ---------- */
-/* columns, not grid: the Monday email is three times the height of a dunning
-   notice, and a row-aligned grid leaves half a screen of dead space beside it */
-.board{max-width:1320px;margin:0 auto;padding:8px 30px 90px;
-  columns:600px 2;column-gap:40px}
-@media(max-width:700px){.board{columns:1;padding:8px 14px 60px}}
-.slot{scroll-margin-top:20px;min-width:0;break-inside:avoid;page-break-inside:avoid;
-  display:inline-block;width:100%;margin-bottom:44px}
-.cap{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;padding:0 4px 11px}
-.capn{font-family:ui-monospace,Menlo,monospace;font-size:.75rem;font-weight:700;color:#0b0b0b;
-  background:#ffc629;border-radius:6px;padding:2px 6px}
-.capt{font-size:1rem;font-weight:800;letter-spacing:-.03em}
-.capseq{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#33312c;
-  background:#e6e3da;border-radius:6px;padding:2px 7px}
-.captier{font-size:.58rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em;
-  padding:3px 8px;border-radius:999px;line-height:1}
-.t-plain{background:#e6e3da;color:#33312c}
-.t-light{background:#ffe27a;color:#5c4400}
-.t-full{background:#0b0b0b;color:#ffd84d}
-.legend{display:flex;flex-wrap:wrap;gap:16px;padding:14px 0 0}
-.legend span{display:flex;align-items:center;gap:7px;font-size:.78rem;color:#33312c;font-weight:500}
-.captr{flex-basis:100%;color:#33312c;font-size:.82rem;font-weight:500}
-.capnote{flex-basis:100%;color:#5c5a54;font-size:.75rem;font-weight:500;line-height:1.45;
-  padding:5px 0 0 2px;border-left:2px solid #ffc629;padding-left:9px;margin-top:3px}
-
-/* ---------- the email ---------- */
-.mail{width:100%;max-width:600px;background:#eceae2;border-radius:14px;overflow:hidden;
-  box-shadow:0 1px 2px rgba(16,18,32,.04),0 14px 34px -20px rgba(16,18,32,.34)}
-.inbox{padding:15px 22px 16px;display:flex;flex-direction:column;gap:4px;border-bottom:1px solid #ddd9cf}
-.inbox .fr{display:flex;align-items:baseline;gap:8px;color:#26241f;font-size:.75rem;font-weight:500}
-.inbox .fr b{color:#0b0b0b;font-weight:700}
-.inbox .fr .tm{margin-left:auto}
-.inbox .sj{font-size:.95rem;font-weight:800;letter-spacing:-.028em}
-.inbox .pv{color:#33312c;font-size:.82rem;font-weight:500}
-.body2{position:relative;background:#fff;display:flex;flex-direction:column}
-
-/* header variants */
-.brandbar{background:#ffc629;padding:14px 26px;display:flex;align-items:center;gap:10px}
-.plainbar{background:#fff;padding:15px 26px;display:flex;align-items:center;gap:10px;
-  border-bottom:1px solid rgba(0,0,0,.09)}
-.logo{width:26px;height:26px;display:grid;place-items:center;border-radius:10px;background:#0b0b0b;color:#ffd84d}
-.logo.sm{width:22px;height:22px;border-radius:6px}
-.bn{font-size:.88rem;font-weight:800;letter-spacing:-.02em}
-.be{margin-left:auto;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#7a4f00}
-.bacct{margin-left:auto;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;
-  color:#33312c;background:#f4f3ef;border-radius:6px;padding:3px 8px}
-
-.pad{padding:24px 26px 22px;display:flex;flex-direction:column;gap:16px}
-.pad.tight{padding:22px 26px 20px;gap:12px}
-.hd{display:flex;flex-direction:column;gap:8px}
-.hd h1{margin:0;font-size:1.6rem;line-height:1.16;font-weight:800;letter-spacing:-.04em}
-.lede{margin:0;color:#26241f;font-size:.95rem;line-height:1.6;font-weight:500}
-p.body{margin:0;color:#26241f;font-size:.95rem;line-height:1.6;font-weight:500}
-p.body.sm{font-size:.88rem}
-p.tail{margin:0;color:#33312c;font-size:.88rem;line-height:1.55;font-weight:500}
-p.cont{margin:0;color:#33312c;font-size:.82rem;font-style:italic;font-weight:500}
-
-/* stat band */
-.sband{display:flex;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:14px;overflow:hidden}
-.sband>div{flex:1;padding:15px 19px 17px;display:flex;flex-direction:column;gap:10px;
-  border-left:1px solid rgba(0,0,0,.06);min-width:0}
-.sband>div:first-child{border-left:0}
-.sband .l{color:#33312c;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;line-height:1.35}
-.sband .v{display:flex;align-items:baseline;gap:8px;font-family:ui-monospace,Menlo,monospace;
-  font-size:1.6rem;font-weight:700;letter-spacing:-.03em;line-height:1}
-.sband .d{font-family:ui-monospace,Menlo,monospace;font-size:.75rem;font-weight:700}
-.sband .d.up{color:#12703f}.sband .d.down{color:#b02020}
-
-/* cards */
-.card{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:14px;padding:16px 17px;
-  display:flex;flex-direction:column;gap:10px;
-  box-shadow:0 1px 2px rgba(16,18,32,.04),0 12px 32px -18px rgba(16,18,32,.22)}
-.card.hotcard{background:#fff8e6;border-color:rgba(255,198,41,.34);box-shadow:none}
-.clabel{color:#33312c;font-size:.62rem;text-transform:uppercase;letter-spacing:.09em;font-weight:700}
-.clabel.amber{color:#945e00}
-.lane{display:flex;align-items:center;gap:10px;padding-bottom:2px}
-.lane .chip{font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;
-  padding:3px 8px;border-radius:6px}
-.lane .chip.own{background:#0b0b0b;color:#ffd84d}
-.lane .chip.comp{background:#fff;color:#945e00;border:1px solid rgba(255,198,41,.7)}
-.lane .chip.prod{background:#f4f3ef;color:#33312c}
-.lane .n{margin-left:auto;color:#33312c;font-family:ui-monospace,Menlo,monospace;
-  font-size:.75rem;font-weight:700}
-.aib{display:flex;gap:12px;padding:16px 19px;border-radius:10px;background:#fffaeb;
-  border:1px solid rgba(255,198,41,.34)}
-.aib p{margin:0;color:#33312c;font-size:.88rem;line-height:1.6;font-weight:500}
-.aibi{flex-shrink:0;width:18px;height:18px;display:grid;place-items:center;border-radius:50%;
-  background:#ffc629;color:#0b0b0b;font-size:.62rem;font-weight:800;margin-top:2px;font-style:normal}
-
-/* rows */
-.vrow{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid rgba(0,0,0,.05)}
-.vrow:first-of-type{border-top:0;padding-top:0}
-.vrow .vc{position:relative;flex-shrink:0;width:48px;aspect-ratio:9/16;border-radius:10px;overflow:hidden;background:#f1efe9}
-.vrow .vc img{width:100%;height:100%;object-fit:cover;display:block}
-.vrow .bd{flex-grow:1;min-width:0;display:flex;flex-direction:column;gap:4px}
-.vrow .bd strong{font-size:.88rem;font-weight:700;letter-spacing:-.02em;line-height:1.35}
-.meta{color:#33312c;font-size:.75rem;font-weight:500}
-.vrow.locked .bd strong{color:#33312c}
-.vrow.locked .vc::after{content:"";position:absolute;inset:0;background:rgba(250,249,246,.55)}
-.lockchip{flex-shrink:0;display:inline-flex;align-items:center;gap:4px;background:#f4f3ef;
-  color:#33312c;border:1px solid rgba(0,0,0,.09);font-family:ui-monospace,Menlo,monospace;
-  font-size:.68rem;font-weight:700;padding:3px 8px;border-radius:6px}
-.cro{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid rgba(0,0,0,.05)}
-.cro:first-of-type{border-top:0;padding-top:0}
-.cro .av{width:32px;height:32px;flex-shrink:0;display:grid;place-items:center;border-radius:50%;
-  font-size:.75rem;font-weight:800}
-.av.pink{background:#fff0f4;color:#c0396b}.av.green{background:#eaf7f0;color:#12703f}
-.av.blue{background:#eaf1ff;color:#2f5fd0}
-.cro .bd{flex-grow:1;min-width:0;display:flex;flex-direction:column}
-.cro .bd strong{font-size:.88rem;font-weight:700;letter-spacing:-.02em}
-.cro .bd span{color:#33312c;font-size:.75rem;font-weight:500}
-.nx{display:flex;gap:10px;padding:10px 0;border-top:1px solid rgba(0,0,0,.05);font-size:.88rem;
-  line-height:1.55;font-weight:500;color:#33312c}
-.nx:first-of-type{border-top:0;padding-top:0}
-.nx>i{width:20px;height:20px;flex-shrink:0;display:grid;place-items:center;border-radius:6px;
-  background:#ffc629;color:#0b0b0b;font-family:ui-monospace,Menlo,monospace;font-size:.62rem;
-  font-style:normal;font-weight:700;margin-top:1px}
-.fl{display:flex;gap:10px;padding:10px 0;border-top:1px solid rgba(0,0,0,.05);color:#33312c;
-  font-size:.88rem;line-height:1.5;font-weight:500}
-.fl:first-of-type{border-top:0;padding-top:0}
-.fl>i{width:20px;height:20px;flex-shrink:0;display:grid;place-items:center;border-radius:6px;
-  background:#0b0b0b;color:#ffd84d;font-family:ui-monospace,Menlo,monospace;font-size:.62rem;
-  font-style:normal;font-weight:700;margin-top:1px}
-.fl strong{color:#0b0b0b}
-.ba{color:#945e00;font-size:.62rem;text-transform:uppercase;letter-spacing:.09em;font-weight:700}
-
-/* score chip */
-.score{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;min-width:46px;
-  padding:4px 9px;border-radius:6px;background:#ffc629;color:#0b0b0b;
-  font-family:ui-monospace,Menlo,monospace;font-size:.82rem;font-weight:700}
-.score.hot{background:#0b0b0b;color:#ffd84d}
-
-/* buttons */
-.btnrow{display:flex;flex-wrap:wrap;gap:10px;padding-top:2px}
-.btn{min-height:46px;flex-grow:1;display:inline-flex;align-items:center;justify-content:center;
-  padding:0 20px;border:1px solid transparent;border-radius:10px;font-family:inherit;font-weight:700;
-  font-size:.95rem;letter-spacing:-.01em;cursor:pointer}
-.btn-amber{background:linear-gradient(to bottom,#ffd84d,#ffc629);color:#0b0b0b;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 1px 2px rgba(20,15,0,.1),0 10px 24px -8px rgba(255,198,41,.72)}
-.btn-ink{background:#0b0b0b;color:#fff}
-.btn-ghost{background:#fff;border-color:rgba(0,0,0,.09);color:#0b0b0b}
-
-/* ---------- the design layer, not just the layout ---------------------- */
-
-/* Waypoint: the headline changes register on its second line */
-.serif{font-family:"Instrument Serif",Georgia,"Times New Roman",serif;font-weight:400;
-  font-style:italic;letter-spacing:-.015em}
-.hd h1 .serif,.numhero .serif{display:block}
-.hd h1{letter-spacing:-.04em}
-.hd h1 .serif{font-size:1.24em;line-height:1.02;margin-top:2px}
-.datahero h1 .serif{display:block;font-size:1.3em;line-height:1.02;color:#ffc629}
-.upd h3{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:1.5rem;
-  letter-spacing:-.01em}
-.eyeserif{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:1.05rem;
-  color:#945e00}
-
-/* Novelle: a drawn path, not a row of dots. The curve is what makes it warm. */
-.arc{position:relative;padding:4px 6px 0}
-.arc .track{position:relative;height:58px}
-.arc .track svg{display:block;width:100%;height:58px;overflow:visible}
-.arc .pin{position:absolute;width:13px;height:13px;margin:-6.5px 0 0 -6.5px;border-radius:50%;
-  background:#fff;border:2.4px solid #d6d2c6;box-sizing:border-box}
-.arc .pin.done{background:#b02020;border-color:#b02020}
-.arc .pin.now{background:#0b0b0b;border-color:#0b0b0b;box-shadow:0 0 0 4px rgba(11,11,11,.12)}
-.arc .stops{display:flex;justify-content:space-between;padding:2px 2px 0}
-.arc .stops>div{flex:1;text-align:center;display:flex;flex-direction:column;gap:2px}
-.arc .stops .d{font-family:ui-monospace,Menlo,monospace;font-size:.68rem;font-weight:700;color:#33312c}
-.arc .stops .l{font-size:.72rem;font-weight:600;line-height:1.3;color:#33312c}
-.arc .stops>div.is-now .l{color:#0b0b0b;font-weight:700}
-
-/* photography as a surface rather than a thumbnail */
-.field{position:relative;overflow:hidden}
-.field img{width:100%;height:270px;object-fit:cover;object-position:50% 30%;display:block}
-.field .veil{position:absolute;inset:0;
-  background:linear-gradient(to top,rgba(11,11,11,.9) 6%,rgba(11,11,11,.35) 48%,rgba(11,11,11,.05) 100%)}
-.field .cap{position:absolute;left:26px;right:26px;bottom:22px;display:flex;flex-direction:column;gap:8px}
-.field .cap .k{color:#ffc629;font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.16em}
-.field .cap h1{margin:0;color:#fff;font-size:1.72rem;line-height:1.1;font-weight:800;letter-spacing:-.04em}
-.field .cap h1 .serif{display:block;font-size:1.22em;color:#ffd84d}
-
-/* depth: softer corners and a real shadow, so cards sit on the ground */
-.card{border-radius:18px;box-shadow:0 1px 2px rgba(16,18,32,.05),0 18px 40px -26px rgba(16,18,32,.4)}
-.sband,.vs{border-radius:18px}
-.lu{border-radius:14px}
-.btn{border-radius:14px}
-
-
-/* ---------- borrowed from the references Veejay picked ------------------- */
-
-/* Polished London: a thin utility strip above the brand bar */
-.utility{background:#0b0b0b;color:#ffc629;padding:7px 26px;display:flex;
-  align-items:center;justify-content:space-between;gap:16px;
-  font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em}
-.utility a{color:#ffc629;text-decoration:none;border-bottom:1px solid rgba(255,198,41,.5)}
-.utility.pale{background:#fff8e6;color:#7a4f00}
-.utility.pale a{color:#7a4f00;border-bottom-color:rgba(122,79,0,.4)}
-
-/* Waypoint: coloured icon tiles beside a bold label and one line */
-.tiles{display:flex;flex-direction:column;gap:16px}
-.tile{display:flex;gap:14px;align-items:flex-start}
-.tile .ic{width:38px;height:38px;flex-shrink:0;border-radius:10px;display:grid;
-  place-items:center;font-size:1.05rem}
-.tile .ic.a{background:#0b0b0b;color:#ffd84d}
-.tile .ic.b{background:#fff8e6;color:#945e00;border:1px solid rgba(255,198,41,.55)}
-.tile .ic.c{background:#f4f3ef;color:#33312c}
-.tile .tx{display:flex;flex-direction:column;gap:3px}
-.tile .tx b{font-size:.95rem;font-weight:700;letter-spacing:-.02em}
-.tile .tx span{color:#33312c;font-size:.88rem;line-height:1.5}
-
-/* PulseTrack: three circular tiles in a row */
-.three{display:flex;gap:12px;text-align:center}
-.three>div{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px}
-.three .cir{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;
-  background:#fff8e6;border:1px solid rgba(255,198,41,.5);font-size:1.15rem}
-.three b{font-size:.88rem;font-weight:700}
-.three span{color:#33312c;font-size:.78rem;line-height:1.42}
-
-/* Nexora: one real button, one underlined text link under it */
-.ctastack{display:flex;flex-direction:column;align-items:center;gap:12px;padding-top:2px}
-.ctastack .btn{flex-grow:0;min-width:250px}
-.textlink{font-size:.88rem;font-weight:700;color:#33312c;text-decoration:underline;
-  text-underline-offset:3px}
-
-/* Novelle: the dotted journey line, and the meta row */
-.journey{position:relative;display:flex;justify-content:space-between;align-items:flex-start;
-  padding:6px 4px 0}
-.journey::before{content:"";position:absolute;left:14px;right:14px;top:13px;
-  border-top:2px dotted rgba(0,0,0,.28)}
-.journey>div{position:relative;display:flex;flex-direction:column;align-items:center;
-  gap:7px;flex:1;text-align:center}
-.journey .pin{width:14px;height:14px;border-radius:50%;background:#fff;
-  border:2px solid #d6d2c6;z-index:1}
-.journey .pin.done{background:#b02020;border-color:#b02020}
-.journey .pin.now{background:#0b0b0b;border-color:#0b0b0b;box-shadow:0 0 0 4px rgba(11,11,11,.12)}
-.journey .d{font-family:ui-monospace,Menlo,monospace;font-size:.68rem;font-weight:700;color:#33312c}
-.journey .l{font-size:.72rem;font-weight:600;line-height:1.32;max-width:96px}
-.journey>div.is-now .l{color:#0b0b0b;font-weight:700}
-.metarow{display:flex;gap:18px;padding:14px 0;border-top:1px solid rgba(0,0,0,.09);
-  border-bottom:1px solid rgba(0,0,0,.09)}
-.metarow>div{flex:1;display:flex;flex-direction:column;gap:4px}
-.metarow .k{color:#33312c;font-size:.62rem;font-weight:700;text-transform:uppercase;
-  letter-spacing:.1em}
-.metarow .v{font-size:.88rem;font-weight:700}
-.totals{display:flex;flex-direction:column;gap:0}
-.totals .r{display:flex;justify-content:space-between;padding:7px 0;font-size:.88rem;color:#33312c}
-.totals .r.big{border-top:1px solid rgba(0,0,0,.14);margin-top:5px;padding-top:11px;
-  font-size:1rem;font-weight:800;color:#0b0b0b}
-.strike{color:#33312c;text-decoration:line-through;font-weight:500}
-
-/* Polished London: the round sticker */
-.sticker{position:absolute;right:18px;bottom:76px;width:74px;height:74px;border-radius:50%;
-  background:#ffc629;color:#0b0b0b;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;text-align:center;line-height:1.1;transform:rotate(-9deg);
-  box-shadow:0 8px 20px -8px rgba(0,0,0,.45)}
-.sticker b{font-family:ui-monospace,Menlo,monospace;font-size:1.05rem;font-weight:700}
-.sticker span{font-size:.52rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;
-  padding:0 6px}
-
-/* Waypoint: a headline whose second line changes register */
-.twoline em{font-style:italic;font-weight:500;letter-spacing:-.03em}
-
-/* ---------- grounds: one colourway per sequence -------------------------
-   Same three brand colours throughout, different weightings. This is where the
-   visual variety comes from now that the structures already differ. */
-.body2.paper{background:#faf7f0}
-.body2.paper .card{background:#fff;border-color:rgba(0,0,0,.08)}
-.body2.paper .efoot{background:#f3efe6}
-.body2.warm{background:#fff8e6}
-.body2.warm .card{background:#fff;border-color:rgba(255,198,41,.36);box-shadow:none}
-.body2.warm .efoot{background:#fdf1cf;border-top-color:rgba(255,198,41,.4)}
-.body2.warm .sband{border-color:rgba(255,198,41,.4)}
-.body2.ink{background:#0b0b0b}
-.body2.ink .pad h1,.body2.ink .hd h1{color:#fff}
-.body2.ink .lede,.body2.ink p.body,.body2.ink p.tail{color:#e8e5db}
-.body2.ink .card{background:#171614;border-color:rgba(255,255,255,.14);box-shadow:none}
-.body2.ink .clabel{color:#ffc629}
-.body2.ink .sband{background:#171614;border-color:rgba(255,255,255,.14)}
-.body2.ink .sband .l{color:#c9c5b8}
-.body2.ink .sband .v{color:#fff}
-.body2.ink .vrow{border-top-color:rgba(255,255,255,.12)}
-.body2.ink .vrow .bd strong{color:#fff}
-.body2.ink .meta{color:#c9c5b8}
-.body2.ink .vrow .rk{color:#c9c5b8}
-.body2.ink .efoot{background:#141310;border-top-color:rgba(255,255,255,.12)}
-.body2.ink .efoot p{color:#c9c5b8}
-.body2.ink .btn-ghost{background:transparent;border-color:rgba(255,255,255,.3);color:#fff}
-
-/* ---------- opening moves other than the yellow bar ---------- */
-.wordmark{display:flex;align-items:center;gap:9px;padding:20px 26px 4px}
-.wordmark .logo{width:22px;height:22px;border-radius:7px}
-.wordmark .bn{font-size:.82rem}
-.wordmark .be{margin-left:auto;color:#33312c;font-size:.62rem;font-weight:700;
-  text-transform:uppercase;letter-spacing:.12em}
-.hairline{height:1px;background:rgba(0,0,0,.12);margin:14px 26px 0}
-.inkbar{background:#0b0b0b;padding:14px 26px;display:flex;align-items:center;gap:10px}
-.inkbar .logo{background:#ffc629;color:#0b0b0b}
-.inkbar .bn{color:#fff}
-.inkbar .be{margin-left:auto;color:#ffc629;font-size:.62rem;font-weight:800;
-  text-transform:uppercase;letter-spacing:.12em}
-
-/* ---------- a bigger display step, used once ---------- */
-.display{margin:0;font-size:2.5rem;line-height:1.02;font-weight:800;letter-spacing:-.05em}
-
-/* ---------- the number is the hero ---------- */
-.numhero{background:#0b0b0b;border-top:3px solid #ffc629;padding:28px 26px 26px;
-  display:flex;flex-direction:column;gap:4px}
-.nhk{color:#ffc629;font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.16em}
-.nhv{font-family:ui-monospace,Menlo,monospace;font-size:clamp(2.6rem,8.4vw,4.4rem);line-height:.92;font-weight:700;
-  letter-spacing:-.06em;color:#fff}
-.nhv em{font-style:normal;color:#ffc629}
-.nhv{overflow-wrap:anywhere}
-.nhs{color:#e8e5db;font-size:.95rem;line-height:1.5;font-weight:500;max-width:36ch}
-.numhero.lite{background:#fff8e6;border-top-color:#0b0b0b}
-.numhero.deep{padding-bottom:82px}
-.pad.lift{margin-top:-64px;position:relative;z-index:1}
-
-.numhero.lite .nhk{color:#945e00}
-.numhero.lite .nhv{color:#0b0b0b}
-.numhero.lite .nhv em{color:#945e00}
-.numhero.lite .nhs{color:#26241f}
-
-/* ---------- it beat its own account: the comparison ---------- */
-.vs{display:flex;flex-direction:column;gap:10px;padding:16px 19px 17px;border-radius:14px;
-  background:#fff;border:1px solid rgba(0,0,0,.06);
-  box-shadow:0 1px 2px rgba(16,18,32,.04),0 12px 32px -18px rgba(16,18,32,.22)}
-.vshead{display:flex;align-items:center;gap:10px;padding-bottom:3px}
-.vshead .t{color:#33312c;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em}
-.vshead .o{margin-left:auto;background:#0b0b0b;color:#ffd84d;font-family:ui-monospace,Menlo,monospace;
-  font-size:.82rem;font-weight:700;padding:3px 9px;border-radius:6px}
-.vsrow{display:flex;align-items:center;gap:12px}
-.vslabel{width:92px;flex-shrink:0;color:#33312c;font-size:.75rem;font-weight:700;
-  text-transform:uppercase;letter-spacing:.07em}
-.vstrack{flex-grow:1;height:16px;border-radius:6px;background:#f1efe9;overflow:hidden}
-.vsfill{display:block;height:100%;min-width:5px;border-radius:6px;background:#d9d5c8}
-.vsfill.hot{background:linear-gradient(to right,#ffd84d,#ffc629)}
-.vsval{width:64px;flex-shrink:0;text-align:right;font-family:ui-monospace,Menlo,monospace;
-  font-size:1rem;font-weight:700;letter-spacing:-.03em}
-.vsnote{margin:0;color:#33312c;font-size:.82rem;font-weight:600}
-.vsnote b{color:#0b0b0b}
-
-/* ---------- poster still ---------- */
-.poster{display:block}
-.poster img{width:100%;height:264px;object-fit:cover;object-position:50% 34%;display:block}
-.plate{background:#0b0b0b;padding:15px 22px 16px;display:flex;align-items:center;gap:20px}
-.pbig{flex-shrink:0;font-family:ui-monospace,Menlo,monospace;font-size:2.5rem;line-height:.9;
-  font-weight:700;letter-spacing:-.05em;color:#ffc629}
-.psub{color:#fff;font-size:.88rem;line-height:1.4;font-weight:600}
-.psub span{display:block;color:#c9c5b8;font-weight:500;font-size:.82rem;padding-top:2px}
-
-/* ---------- trial day tracker ---------- */
-.dots{display:flex;align-items:center;gap:6px;padding:2px 0}
-.dots i{width:100%;height:6px;border-radius:6px;background:#e6e3da;font-style:normal}
-.dots i.on{background:#ffc629}
-.dots i.now{background:#0b0b0b}
-.dotlabel{color:#33312c;font-size:.68rem;font-weight:700;text-transform:uppercase;
-  letter-spacing:.1em;white-space:nowrap}
-
-/* ---------- dunning timeline ---------- */
-.tl{display:flex;flex-direction:column;gap:0;padding:16px 18px;border-radius:14px;
-  background:#faf9f6;border:1px solid rgba(0,0,0,.07)}
-.tlrow{display:flex;align-items:center;gap:12px;padding:9px 0;border-top:1px solid rgba(0,0,0,.05);
-  font-size:.88rem;font-weight:500;color:#33312c}
-.tlrow:first-child{border-top:0;padding-top:0}
-.tlrow .dt{width:74px;flex-shrink:0;font-family:ui-monospace,Menlo,monospace;font-size:.75rem;
-  font-weight:700;color:#33312c}
-.tlrow .pt{width:9px;height:9px;flex-shrink:0;border-radius:50%;background:#d6d2c6}
-.tlrow.done .pt{background:#b02020}
-.tlrow.now .pt{background:#0b0b0b;box-shadow:0 0 0 4px rgba(11,11,11,.1)}
-.tlrow.next .pt{background:#fff;border:2px solid #d6d2c6}
-.tlrow.now{color:#0b0b0b;font-weight:700}
-
-/* ---------- rank numeral in a list ---------- */
-.vrow .rk{width:20px;flex-shrink:0;font-family:ui-monospace,Menlo,monospace;font-size:.82rem;
-  font-weight:700;color:#33312c}
-.vrow:first-of-type .rk{color:#945e00}
-
-/* ---------- quarter bars ---------- */
-.qbars{display:flex;align-items:flex-end;gap:4px;height:74px;padding:16px 18px 0;
-  border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.06)}
-.qbars i{flex:1;border-radius:3px 3px 0 0;background:#e6e3da;font-style:normal}
-.qbars i.hi{background:linear-gradient(to top,#ffc629,#ffd84d)}
-.qcap{display:flex;justify-content:space-between;padding:7px 19px 0;color:#33312c;
-  font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em}
-
-/* ---------- lineup grid (StubHub): a ranked personalised set of cards ---------- */
-.lineup{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.lineup.c3{grid-template-columns:1fr 1fr 1fr}
-.lu.feat{grid-column:1/-1}
-.lu.feat img{height:210px}
-.lu.feat .t{font-size:.95rem}
-.lineup.c3 .lu img{height:126px}
-.lineup.c3 .lu .t{font-size:.76rem}
-.lineup.c3 .lu .m,.lineup.c3 .lu .why{font-size:.64rem}
-.lu{position:relative;display:block;border-radius:10px;overflow:hidden;background:#f1efe9;
-  border:1px solid rgba(0,0,0,.07)}
-.lu img{width:100%;height:150px;object-fit:cover;display:block}
-.lu .body{display:block;padding:10px 12px 12px;background:#fff}
-.lu .t{display:block;font-size:.82rem;font-weight:700;line-height:1.28;letter-spacing:-.02em}
-.lu .m{display:block;color:#33312c;font-size:.68rem;font-weight:500;padding-top:3px}
-.lu .x{position:absolute;top:8px;left:8px;background:#0b0b0b;color:#ffd84d;
-  font-family:ui-monospace,Menlo,monospace;font-size:.75rem;font-weight:700;
-  padding:3px 8px;border-radius:6px}
-.lu .why{display:block;color:#945e00;font-size:.68rem;font-weight:600;padding-top:5px}
-
-/* ---------- update section (Claude Code): heading, shot, prose, read more ---------- */
-.upd{display:flex;flex-direction:column;gap:10px;padding:20px 0;
-  border-top:1px solid rgba(0,0,0,.09)}
-.upd:first-of-type{border-top:0;padding-top:4px}
-.upd h3{margin:0;font-size:1.25rem;font-weight:700;letter-spacing:-.03em;line-height:1.2}
-.upd .shot{border-radius:10px;overflow:hidden;border:1px solid rgba(0,0,0,.09);background:#f6f4ef}
-.upd .shot img{width:100%;height:206px;object-fit:cover;object-position:50% 32%;display:block}
-.upd p{margin:0;color:#26241f;font-size:.88rem;line-height:1.6;font-weight:500}
-.upd .more{font-size:.82rem;font-weight:700;color:#945e00;text-decoration:none}
-.upd .more:hover{text-decoration:underline}
-.lanetag{display:inline-flex;align-self:flex-start;font-size:.62rem;font-weight:800;
-  text-transform:uppercase;letter-spacing:.1em;padding:3px 8px;border-radius:5px}
-.lanetag.own{background:#0b0b0b;color:#ffd84d}
-.lanetag.comp{background:#fff;color:#945e00;border:1px solid rgba(255,198,41,.75)}
-.lanetag.prod{background:#f4f3ef;color:#33312c}
-
-/* ---------- fact table (Chase): the numbers before any prose ---------- */
-.facts{border:1px solid rgba(0,0,0,.09);border-radius:10px;overflow:hidden}
-.facts .r{display:flex;justify-content:space-between;gap:16px;padding:11px 15px;
-  border-top:1px solid rgba(0,0,0,.07);font-size:.88rem}
-.facts .r:first-child{border-top:0;background:#faf9f6}
-.facts .r span{color:#33312c;font-weight:500}
-.facts .r b{font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
-
-/* ---------- data hero (Zillow): the chart opens the email ---------- */
-.datahero{position:relative;padding:24px 26px 22px;background:#0b0b0b;border-top:3px solid #ffc629;
-  display:flex;flex-direction:column;gap:14px}
-.datahero .k{color:#ffc629;font-size:.62rem;font-weight:800;text-transform:uppercase;
-  letter-spacing:.16em}
-.datahero h1{margin:0;color:#fff;font-size:1.6rem;font-weight:800;letter-spacing:-.04em;
-  line-height:1.14}
-.datahero .qbars{background:transparent;border:1px solid rgba(255,255,255,.16)}
-.datahero .qbars i{background:rgba(255,255,255,.22)}
-.datahero .qbars i.hi{background:linear-gradient(to top,#ffc629,#ffd84d)}
-.datahero .qcap{color:#c9c5b8}
-.datahero p{margin:0;color:#e8e5db;font-size:.88rem;line-height:1.55;font-weight:500}
-/* when a sticker is present the chart is inset so the badge has its own room */
-.datahero.badged .qbars,.datahero.badged .qcap{margin-right:88px}
-
-/* ---------- missed grid (Etsy): browsable, not a list ---------- */
-.missed{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px}
-.ms{border:1px solid rgba(0,0,0,.08);border-radius:10px;overflow:hidden;background:#fff}
-.ms img{width:100%;height:118px;object-fit:cover;display:block;opacity:.72}
-.ms .b{padding:8px 9px 10px;display:flex;flex-direction:column;gap:3px}
-.ms .t{font-size:.72rem;font-weight:700;line-height:1.25}
-.ms .x{font-family:ui-monospace,Menlo,monospace;font-size:.68rem;font-weight:700;color:#33312c}
-
-/* one-offs */
-.hero{display:flex;align-items:center;gap:20px;padding:22px 26px;background:#faf9f6;
-  border-bottom:1px solid rgba(0,0,0,.06)}
-.hframe{position:relative;flex-shrink:0;width:104px;aspect-ratio:9/16;border-radius:10px;
-  overflow:hidden;background:#f1efe9;box-shadow:0 10px 26px -14px rgba(16,18,32,.5)}
-.hframe img{width:100%;height:100%;object-fit:cover;display:block}
-.heroscore{position:absolute;left:8px;bottom:8px;background:#0b0b0b;color:#ffd84d;
-  font-family:ui-monospace,Menlo,monospace;font-size:.82rem;font-weight:700;padding:4px 8px;border-radius:6px}
-.herometa{color:#26241f;font-size:.88rem;font-weight:500;line-height:1.6}
-.herometa b{font-family:ui-monospace,Menlo,monospace;font-size:1.25rem;font-weight:700;
-  letter-spacing:-.03em;color:#0b0b0b}
-.fakefield{display:flex;align-items:center;gap:10px;min-height:46px;padding:0 6px 0 15px;
-  border:1px solid rgba(0,0,0,.09);border-radius:10px;background:#fff;color:#5c5a54;font-size:.95rem}
-.fkbtn{margin-left:auto;background:#0b0b0b;color:#fff;font-size:.82rem;font-weight:700;
-  padding:8px 13px;border-radius:10px}
-.sharepane{border:1px solid rgba(0,0,0,.09);border-radius:10px;overflow:hidden;background:#faf9f6}
-.sptop{display:flex;align-items:center;gap:8px;padding:9px 12px;background:#f3f2ef;
-  border-bottom:1px solid rgba(0,0,0,.06)}
-.spdot{width:8px;height:8px;border-radius:50%;background:#d6d2c6}
-.spurl{color:#33312c;font-size:.75rem;font-weight:600}
-.spbody{padding:13px 14px;display:flex;flex-direction:column;gap:10px}
-.spline{height:7px;border-radius:6px;background:#e6e3da;display:block}
-.w1{width:58%}.w2{width:34%}.w3{width:78%}.w4{width:44%}.w5{width:52%}
-.sprow{display:flex;align-items:center;gap:10px}
-.spthumb{width:26px;flex-shrink:0;aspect-ratio:9/16;border-radius:6px;overflow:hidden;background:#eee}
-.spthumb img{width:100%;height:100%;object-fit:cover;display:block}
-.spbars{flex-grow:1;display:flex;flex-direction:column;gap:4px}
-.billrow{display:flex;justify-content:space-between;gap:16px;padding:9px 0;
-  border-bottom:1px solid rgba(0,0,0,.05);font-size:.88rem}
-.billrow.last{border-bottom:0;padding-bottom:0}
-.billrow span{color:#33312c;font-weight:500}
-.billrow b{font-weight:700;text-align:right}
-.warn{padding:14px 16px;border-radius:10px;background:#fdf0ef;border:1px solid rgba(176,32,32,.24)}
-.warn p{margin:0;color:#26241f;font-size:.88rem;line-height:1.6;font-weight:500}
-.plaintext{padding:26px;display:flex;flex-direction:column;gap:12px;
-  font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif}
-.plaintext p{margin:0;color:#0b0b0b;font-size:.95rem;line-height:1.62}
-.swap{display:flex;flex-direction:column;gap:0;padding:14px 16px;border-radius:10px;
-  background:#f4f3ef;border:1px dashed rgba(0,0,0,.16)}
-.swaplabel{color:#33312c;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;
-  font-weight:700;padding-bottom:9px}
-.sw{display:flex;gap:10px;padding:8px 0;border-top:1px solid rgba(0,0,0,.06);color:#26241f;
-  font-size:.88rem;line-height:1.5;font-weight:500}
-.sw>i{flex-shrink:0;width:46px;font-style:normal;font-size:.62rem;font-weight:800;
-  text-transform:uppercase;letter-spacing:.06em;color:#945e00;padding-top:3px}
-
-.efoot{padding:20px 26px 24px;background:#faf9f6;border-top:1px solid rgba(0,0,0,.06);
-  display:flex;flex-direction:column;gap:6px}
-.efoot p{margin:0;color:#33312c;font-size:.75rem;line-height:1.6}
-.efoot a{font-weight:600}
-</style>
-</head>
-<body>
-
+*{box-sizing:border-box}
+:root{--ink:#0b0b0b;--amber:#ffc629;--mut:#5c5a54;--ln:rgba(0,0,0,.10);--ln2:rgba(0,0,0,.06)}
+body{margin:0;background:#f4f3ef;color:var(--ink);
+  font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5;
+  -webkit-font-smoothing:antialiased}
+a{color:inherit}
+.top{max-width:1280px;margin:0 auto;padding:44px 28px 8px}
+.kick{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:var(--mut)}
+h1.page{margin:9px 0 12px;font-size:2.3rem;line-height:1.05;letter-spacing:-.035em;font-weight:800}
+p.sub{margin:0;max-width:76ch;color:#33312c;font-size:.94rem;line-height:1.62}
+.nav{max-width:1280px;margin:0 auto;padding:24px 28px 6px;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:12px}
+.ng{background:#fff;border:1px solid var(--ln2);border-radius:8px;padding:11px 13px}
+.nh{display:block;font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--mut);padding-bottom:6px}
+.ng a{display:flex;gap:8px;text-decoration:none;font-size:.78rem;color:#33312c;padding:2px 0}
+.ng a:hover{color:var(--ink)}
+.ng a b{font-family:ui-monospace,Menlo,monospace;font-size:.71rem;color:var(--ink);min-width:20px}
+.board{max-width:1280px;margin:0 auto;padding:20px 28px 80px;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(370px,1fr));gap:32px;align-items:start}
+.slot{min-width:0;scroll-margin-top:18px}
+.cap{display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;padding:0 2px 10px}
+.cid{font-family:ui-monospace,Menlo,monospace;font-size:.74rem;font-weight:700;color:#945e00}
+.ct{font-size:.98rem;font-weight:800;letter-spacing:-.03em}
+.cf{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--mut)}
+.cw{color:var(--mut);font-size:.79rem;margin-left:auto}
+.cn2{flex-basis:100%;color:var(--mut);font-size:.75rem;line-height:1.45;
+  border-left:2px solid var(--ln);padding:2px 0 0 9px;margin-top:3px}
+.mail{background:#fff;border:1px solid var(--ln2);border-radius:10px;overflow:hidden}
+.inbox{padding:12px 20px;border-bottom:1px solid var(--ln2);display:flex;flex-direction:column;gap:3px}
+.fr{font-size:.73rem;color:var(--mut)}
+.fr b{color:var(--ink)}
+.tm{float:right}
+.sj{font-size:.9rem;font-weight:700;letter-spacing:-.02em}
+.body2{background:#fff}
+.pad,.pad.tight{padding:4px 20px 22px}
+/* ---- inside the email: type, a picture, a button. nothing else. ---- */
+.mh{display:flex;align-items:baseline;gap:9px;padding:16px 20px 14px;border-bottom:1px solid var(--ln2)}
+.wm{font-weight:800;font-size:.86rem;letter-spacing:-.03em}
+.ml{font-size:.63rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--mut)}
+p.b{margin:14px 0 0;font-size:.92rem;line-height:1.65;color:#1a1813}
+p.sg{margin:16px 0 0;font-size:.92rem}
+p.day{margin:14px 0 0;font-size:.63rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--mut)}
+p.rw{margin:12px 0 0;font-size:.9rem;line-height:1.55;color:#1a1813}
+p.rw b{font-weight:700}
+ol.ln{margin:12px 0 0;padding-left:20px}
+ol.ln li{padding:4px 0;font-size:.9rem;line-height:1.6}
+.tg{font-family:ui-monospace,Menlo,monospace;font-size:.84em;color:#945e00}
+.ctar{display:flex;flex-direction:column;gap:6px;margin:18px 0 2px;align-items:flex-start}
+.btn{border:0;border-radius:6px;padding:11px 17px;font:inherit;font-size:.85rem;font-weight:700;
+  cursor:default;text-align:left}
+.btn-amber{background:var(--amber);color:var(--ink)}
+.btn-ink{background:var(--ink);color:#fff}
+.url{font-family:ui-monospace,Menlo,monospace;font-size:.72rem;color:var(--mut)}
+.ft{padding:16px 20px 18px;margin-top:20px;border-top:1px solid var(--ln2)}
+.ft p{margin:0 0 3px;font-size:.7rem;line-height:1.5;color:var(--mut)}
+@media(max-width:760px){.board{grid-template-columns:1fr;padding:16px 16px 60px}
+  .top,.nav{padding-left:16px;padding-right:16px}h1.page{font-size:1.9rem}}
+</style></head><body>
 <div class="top">
-  <div class="inner">
-    <p class="kicker">Brand Beacon &middot; Lifecycle</p>
-    <h1 class="page">Seventeen emails, three tiers</h1>
-    <p class="sub">Revision 6, against the note that most of these were HTML heavy. The rule: <b>an email should look like whatever it is a receipt of.</b> Product data looks like the product, a message from us looks like a message. Eight of the seventeen now send as plain text, four are stripped back to live text and coloured boxes, and five keep the full design because they are the product arriving in the inbox. The image pipeline now touches four emails instead of ten, and the MJML component work covers five instead of seventeen. Grey lines under a title say what changed and why.</p>
-    <div class="legend">
-      <span><b class="captier t-plain">plain</b> No design. Sent as text, from a person.</span>
-      <span><b class="captier t-light">light</b> One column, live text, coloured boxes. No images.</span>
-      <span><b class="captier t-full">full</b> Full design. Earns its weight.</span>
-    </div>
-  </div>
+  <span class="kick">Brand Beacon &middot; lifecycle email</span>
+  <h1 class="page">Our version, same set</h1>
+  <p class="sub">The same eight flows and the same 20 emails as <b>BrandBeacon product email (Ivan plain text)</b> of 9 September, matched one for one so the two boards read side by side. Same triggers, same cadences, same merge tags. Our copy. <b>Flow 3 is locked in Ivan's doc, so all four of those are his words unchanged</b> and are identical on both boards.</p>
+  <p class="sub" style="padding-top:11px"><b>An email here is type.</b> It may add a picture and a button. Nothing else. No filled brand bars, no stat bands, no cards, no score badges, no timelines. Anything those elements used to carry now lives in the sentence, which is where it belongs.</p>
+  <p class="sub" style="padding-top:11px">Two emails sit past the twenty and are marked as such: a card expiring notice, and a quarterly send for closed accounts. Neither is in Ivan's program. Both are proposals, kept separate so the comparison stays clean. Grey lines under each title say what is different from Ivan's version of the same email, and why.</p>
 </div>
-
-<nav class="nav"><div class="navgrp"><span class="navh">Free search finished</span><a href="#e1"><b>01</b>Readout ready</a><a href="#e2"><b>02</b>We found this one for you</a><a href="#e3"><b>03</b>You left something behind</a></div><div class="navgrp"><span class="navh">Trial</span><a href="#e4"><b>04</b>Welcome, day 1 of 8</a><a href="#e5"><b>05</b>What a breakout looks like</a><a href="#e6"><b>06</b>Educate your creators</a><a href="#e7"><b>07</b>Day 7, top breakouts</a></div><div class="navgrp"><span class="navh">Weekly drip</span><a href="#e8"><b>08</b>First Monday</a><a href="#e9"><b>09</b>Standard week</a></div><div class="navgrp"><span class="navh">Card declined</span><a href="#e10"><b>10</b>Card expiring</a><a href="#e11"><b>11</b>Card declined</a><a href="#e12"><b>12</b>Second attempt failed</a><a href="#e13"><b>13</b>Locks tomorrow</a></div><div class="navgrp"><span class="navh">Trial ended</span><a href="#e14"><b>14</b>What you missed</a><a href="#e15"><b>15</b>Your competitors didn't stop</a><a href="#e16"><b>16</b>Last one about the trial</a></div><div class="navgrp"><span class="navh">Cancelled accounts</span><a href="#e17"><b>17</b>The quarter you missed</a></div></nav>
-
-<main class="board"><section class="slot" id="e1"><div class="cap"><span class="capn">01</span><span class="capt">Readout ready</span><span class="capseq">Free search finished</span><span class="captier t-light">light</span><span class="captr">The free search completes</span><span class="capnote">Now light. The thumbnail grid is gone and the four rows are live text, so the email reads whole with images blocked. The stat band stays: coloured boxes at set widths render everywhere, including Outlook.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Brand Beacon</b> hello@brandbeacon.io <span class="tm">Tue 2:14pm</span></span><span class="sj">solmere: 26 viral breakouts found</span><span class="pv">138 videos found, 26 of them beat the account that posted them. Took 2m 14s.</span></div><div class="body2 "><div class="inkbar"><span class="logo"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></span><span class="bn">Brand Beacon</span><span class="be">Your readout</span></div><div class="numhero"><span class="nhk">You searched</span><span class="nhv">solmere</span><span class="nhs">138 videos found. <b>26 were viral breakouts</b>, meaning they beat the average of the account that posted them.</span></div><div class="pad"><div class="sband"><div><span class="l">Videos found</span><span class="v">138 </span></div><div><span class="l">Viral breakouts</span><span class="v">26 </span></div><div><span class="l">Search took</span><span class="v">2m 14s </span></div></div><p class="clabel" style="padding-top:2px">The four that broke out hardest</p><div class="card"><span class="vrow"><span class="rk">01</span><span class="bd"><strong>She stopped recommending the dupe, on camera</strong><span class="meta">@cleangirl.ari &middot; 2.8M views</span></span><span class="score hot">41x</span></span><span class="vrow"><span class="rk">02</span><span class="bd"><strong>Shelf teardown: what is worth the money</strong><span class="meta">@shelfie.sara &middot; 1.4M views</span></span><span class="score">28x</span></span><span class="vrow"><span class="rk">03</span><span class="bd"><strong>Three months, same light, no filter</strong><span class="meta">@mel.does.skincare &middot; 410K views</span></span><span class="score">22x</span></span><span class="vrow"><span class="rk">04</span><span class="bd"><strong>I only kept three things from the shelf</strong><span class="meta">@thatskinguy &middot; 1.1M views</span></span><span class="score">19x</span></span></div><div class="btnrow"><button type="button" class="btn btn-amber">Open your solmere readout</button></div></div><div class="efoot"><p>You ran this search at brandbeacon.io. One free search, no card.</p><p><a href="#">Unsubscribe</a></p></div></div></article></section><section class="slot" id="e2"><div class="cap"><span class="capn">02</span><span class="capt">We found this one for you</span><span class="capseq">Free search finished</span><span class="captier t-full">full</span><span class="captr">Day 2, if the readout was never opened</span><span class="capnote">Kept: the still and the median comparison. Changed: the 41x moved off the image and onto a plate under it, because text over an image cannot be positioned in Outlook and baking it in loses it when images are blocked. The comparison now states the outcome on it.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Brand Beacon</b> hello@brandbeacon.io <span class="tm">Thu 8:02am</span></span><span class="sj">We found this viral breakout video for you</span><span class="pv">2.8M views from an account that normally does 68K.</span></div><div class="body2 "><div class="inkbar"><span class="logo"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></span><span class="bn">Brand Beacon</span><span class="be">One video</span></div><div class="poster"><img src="vid5.jpg" alt="She stopped recommending the dupe, on camera"><span class="plate"><span class="pbig">41x</span><span class="psub">She stopped recommending the dupe, on camera<span>@cleangirl.ari &middot; posted 19 August</span></span></span></div><div class="pad"><div class="hd"><h1>This one is about<span class="serif">solmere.</span></h1><p class="lede">Nobody there briefed it, paid for it, or asked for it.</p></div><div class="vs"><div class="vshead"><span class="t">Against her own account</span><span class="o">41x</span></div><div class="vsrow"><span class="vslabel">This video</span><span class="vstrack"><span class="vsfill hot" style="width:100%"></span></span><span class="vsval">2.8M</span></div><div class="vsrow"><span class="vslabel">Her median</span><span class="vstrack"><span class="vsfill" style="width:2.4%"></span></span><span class="vsval">68K</span></div><p class="vsnote">The video did the work, not her following. That part transfers to the next one.</p></div><div class="btnrow"><button type="button" class="btn btn-amber">Open your solmere readout</button></div></div><div class="efoot"><p>You ran one free search on solmere. <a href="#">Unsubscribe</a></p></div></div></article></section><section class="slot" id="e3"><div class="cap"><span class="capn">03</span><span class="capt">You left something behind</span><span class="capseq">Free search finished</span><span class="captier t-plain">plain</span><span class="captr">Day 6, if no trial has started</span><span class="capnote">Now plain text. This is a nudge, not a report. Designed, it reads as marketing and gets filed as marketing.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Brand Beacon</b> hello@brandbeacon.io <span class="tm">Mon 9:30am</span></span><span class="sj">You left 26 viral breakouts open</span><span class="pv">Your solmere readout is still there. So is the free trial.</span></div><div class="body2 "><div class="plaintext"><p>You ran a search on solmere on 19 August. It found 26 viral breakouts and you never opened them.</p><p>They are still sitting there.</p><p>The free trial opens all of them, and three things the free search does not show you:</p><p>1. Why each one broke out. The hook, the pacing, and what to lift from it.<br>2. Every creator posting about you, ranked the same way as the videos.<br>3. More searches. Competitors, products, anything you want to watch.</p><p>8 days. No charge if you stop before then.</p><p>Start the free trial: <a class="textlink" href="#">brandbeacon.io</a></p><p>[First name]<br>Brand Beacon</p></div></div></article></section><section class="slot" id="e4"><div class="cap"><span class="capn">04</span><span class="capt">Welcome, day 1 of 8</span><span class="capseq">Trial</span><span class="captier t-plain">plain</span><span class="captr">Trial starts</span><span class="capnote">Now plain text. The first email from us should look like a person wrote it, because the reply line at the end only works if it does. A designed welcome sets the expectation that everything after it is a campaign.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Brand Beacon</b> hello@brandbeacon.io <span class="tm">Mon 11:06am</span></span><span class="sj">Welcome to Brand Beacon. You're on day 1 of 8.</span><span class="pv">Three searches worth running today.</span></div><div class="body2 "><div class="plaintext"><p>Welcome to Brand Beacon.</p><p>You are on day 1 of your 8 day trial. There is nothing to install and nothing to connect. Type a keyword and we go and find the TikTok videos posted about it.</p><p>Three worth running today:</p><p>1. Your own brand.<br>2. A competitor you want to watch.<br>3. Your top product.</p><p>Run your first search: <a class="textlink" href="#">brandbeacon.io</a></p><p>If you get stuck, reply to this one. It comes to me.</p><p>[First name]<br>Brand Beacon</p></div></div></article></section><section class="slot" id="e5"><div class="cap"><span class="capn">05</span><span class="capt">What a breakout looks like</span><span class="capseq">Trial</span><span class="captier t-light">light</span><span class="captr">Day 2 of the trial</span><span class="capnote">Now light. The full bleed video still is gone. This email teaches, and the teaching is in the readout text, not the thumbnail. The comparison bar stays because it is two coloured boxes at set widths.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Brand Beacon</b> hello@brandbeacon.io <span class="tm">Tue 7:40am</span></span><span class="sj">Here's what a viral breakout looks like</span><span class="pv">A real one from skincare, with the readout attached.</span></div><div class="body2 paper"><div class="wordmark"><span class="logo"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></span><span class="bn">Brand Beacon</span><span class="be">Day 2 of 8</span></div><div class="hairline"></div><div class="pad"><div class="dots"><span class="dotlabel">Day 2</span><i class="on"></i><i class="now"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><span class="dotlabel">of 8</span></div><div class="hd"><h1>A skincare viral breakout,<span class="serif">41x.</span></h1><p class="lede">&ldquo;She stopped recommending the dupe, on camera&rdquo; by @cleangirl.ari.</p></div><div class="vs"><div class="vshead"><span class="t">Against her own account</span><span class="o">41x</span></div><div class="vsrow"><span class="vslabel">This video</span><span class="vstrack"><span class="vsfill hot" style="width:100%"></span></span><span class="vsval">2.8M</span></div><div class="vsrow"><span class="vslabel">Her median</span><span class="vstrack"><span class="vsfill" style="width:2.4%"></span></span><span class="vsval">68K</span></div><p class="vsnote">This is what you're looking for. The video did the work, not her following.</p></div><div class="card hotcard"><span class="clabel amber">The readout on it</span><span class="ba">What worked</span><p class="body sm">The dupe is named in the first two seconds, before the product is on screen.</p><span class="ba">What didn&rsquo;t</span><p class="body sm">The price comparison at 0:22 is where the retention drops.</p><span class="ba">Copy this</span><p class="body sm">The on camera switch. Three creators have now run it.</p></div><p class="body">Every video in a readout gets the same treatment. Go and find yours.</p><div class="btnrow"><button type="button" class="btn btn-amber">Search your brand or product</button></div></div><div class="efoot"><p>Day 2 of 8. <a href="#">Unsubscribe</a></p></div></div></article></section><section class="slot" id="e6"><div class="cap"><span class="capn">06</span><span class="capt">Educate your creators</span><span class="capseq">Trial</span><span class="captier t-plain">plain</span><span class="captr">Day 4 of the trial</span><span class="capnote">PARKED until sharing is built. Now plain text: this email asks the reader to forward something, and a plain text email forwards cleanly where a designed one does not.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Brand Beacon</b> hello@brandbeacon.io <span class="tm">Thu 10:15am</span></span><span class="sj">Educate your creators</span><span class="pv">Give them three videos that already worked instead of a brief.</span></div><div class="body2 "><div class="plaintext"><p>Your creators are guessing.</p><p>They are making videos for solmere with no idea which ones worked. So send them three that did.</p><p>01 41x. &ldquo;She stopped recommending the dupe, on camera&rdquo;<br>02 28x. &ldquo;Shelf teardown: what is worth the money&rdquo;<br>03 22x. &ldquo;Three months, same light, no filter&rdquo;</p><p>A creator briefed on a video that already broke out is working from evidence. One briefed on a moodboard is guessing too.</p><p>Share these three: <a class="textlink" href="#">brandbeacon.io</a></p><p>Share with as many creators as you like. There is no cap and they do not need an account.</p><p>[First name]<br>Brand Beacon</p></div></div></article></section><section class="slot" id="e7"><div class="cap"><span class="capn">07</span><span class="capt">Day 7, top breakouts</span><span class="capseq">Trial</span><span class="captier t-light">light</span><span class="captr">Day 7, the day before the charge</span><span class="capnote">Now light. Five ranked rows as live text, no thumbnails. This one has to be legible the day before a card is charged, so nothing in it depends on images loading. The billing block is type and rules, so it is unchanged.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Brand Beacon</b> hello@brandbeacon.io <span class="tm">Sun 9:00am</span></span><span class="sj">Your top 5 viral breakouts this week</span><span class="pv">Five worth watching before the weekend is out.</span></div><div class="body2 paper"><div class="wordmark"><span class="logo"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></span><span class="bn">Brand Beacon</span><span class="be">Day 7 of 8</span></div><div class="hairline"></div><div class="pad"><div class="dots"><span class="dotlabel">Day 7</span><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="now"></i><i class=""></i><span class="dotlabel">of 8</span></div><div class="hd"><h1>Your top five this week.</h1></div><div class="card"><span class="vrow"><span class="rk">01</span><span class="bd"><strong>She stopped recommending the dupe, on camera</strong><span class="meta">@cleangirl.ari &middot; 2.8M views</span></span><span class="score hot">41x</span></span><span class="vrow"><span class="rk">02</span><span class="bd"><strong>I only kept three things from the shelf</strong><span class="meta">@thatskinguy &middot; 1.1M views</span></span><span class="score">34x</span></span><span class="vrow"><span class="rk">03</span><span class="bd"><strong>Shelf teardown: what is worth the money</strong><span class="meta">@shelfie.sara &middot; 1.4M views</span></span><span class="score">28x</span></span><span class="vrow"><span class="rk">04</span><span class="bd"><strong>The dupe test, six weeks in</strong><span class="meta">@cleangirl.ari &middot; 890K views</span></span><span class="score">27x</span></span><span class="vrow"><span class="rk">05</span><span class="bd"><strong>Three months, same light, no filter</strong><span class="meta">@mel.does.skincare &middot; 410K views</span></span><span class="score">22x</span></span></div><div class="metarow"><div><span class="k">Plan</span><span class="v">Growth, monthly</span></div><div><span class="k">Card</span><span class="v">Visa &middot; 4241</span></div><div><span class="k">Charged</span><span class="v">9 September</span></div></div><div class="totals"><div class="r"><span>Growth, monthly</span><span>$99.00</span></div><div class="r"><span>Annual instead</span><span><span class="strike">$1,188</span> &nbsp;$699</span></div><div class="r big"><span>Tomorrow</span><span>$99.00</span></div></div><div class="ctastack"><button type="button" class="btn btn-amber">Open your readouts</button><a class="textlink" href="#">Cancel before tomorrow</a></div></div><div class="efoot"><p>Your trial ends tomorrow. The card ending 4241 is charged $99 for Growth on 9 September.</p><p><a href="#">Unsubscribe</a></p></div></div></article></section><section class="slot" id="e8"><div class="cap"><span class="capn">08</span><span class="capt">First Monday</span><span class="capseq">Weekly drip</span><span class="captier t-full">full</span><span class="captr">First Monday after the first payment</span><span class="capnote">Now sets up all three lanes, brand, competitors, and products, not just the brand.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Brand Beacon</b> hello@brandbeacon.io <span class="tm">Mon 7:00am</span></span><span class="sj">solmere, week of 8 September: 26 viral breakouts</span><span class="pv">Your week, your competitors, and your products, every Monday.</span></div><div class="body2 "><div class="brandbar"><span class="logo"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></span><span class="bn">Brand Beacon</span><span class="be">Your week</span></div><div class="pad"><div class="aib"><span class="aibi">i</span><p>This is the Monday email. Every week it runs everything you're watching, your brand, your competitors, and your products, and sends you what broke out. <b>You don't have to log in to read it.</b></p></div><div class="hd"><h1>26 viral breakouts for solmere</h1><p class="lede">Week of 8 September, out of 138 videos found.</p></div><div class="sband"><div><span class="l">Videos found</span><span class="v">138 <span class="d up">&#9650;41</span></span></div><div><span class="l">Viral breakouts</span><span class="v">26 <span class="d up">&#9650;9</span></span></div><div><span class="l">New creators</span><span class="v">14 <span class="d up">&#9650;6</span></span></div></div><p class="cont">Standard body continues below, unchanged.</p></div><div class="efoot"><p>Sent every Monday at 7am for everything you're watching.</p><p><a href="#">Unsubscribe</a></p></div></div></article></section><section class="slot" id="e9"><div class="cap"><span class="capn">09</span><span class="capt">Standard week</span><span class="capseq">Weekly drip</span><span class="captier t-full">full</span><span class="captr">Every Monday, 7am local</span><span class="capnote">Rebuilt on the Claude Code weekly update: each lane is now a section with a headline that says something, an image strip, prose carrying the specifics, and a Read more link. The three lanes and What we would do next are unchanged.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Brand Beacon</b> hello@brandbeacon.io <span class="tm">Mon 7:00am</span></span><span class="sj">solmere, week of 15 September: 26 viral breakouts</span><span class="pv">The format doing the work, what your competitors did, and your products.</span></div><div class="body2 "><div class="utility"><span>solmere &middot; week of 15 September</span><a href="#">View in browser</a></div><div class="brandbar"><span class="logo"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></span><span class="bn">Brand Beacon</span><span class="be">Your week</span></div><div class="pad"><div class="hd"><h1>26 viral breakouts for solmere</h1><p class="lede">Week of 15 September, out of 138 videos found.</p></div><div class="sband"><div><span class="l">Videos found</span><span class="v">138 <span class="d up">&#9650;41</span></span></div><div><span class="l">Viral breakouts</span><span class="v">26 <span class="d up">&#9650;9</span></span></div><div><span class="l">New creators</span><span class="v">14 <span class="d up">&#9650;6</span></span></div></div><div class="aib"><span class="aibi">&#9679;</span><p>The format doing the work is still the <b>shelf teardown</b>, and it is spreading: verrow picked it up on Thursday. The one new thing this week is that <b>the smell objection is now being answered by creators</b> rather than raised.</p></div><div class="upd"><span class="lanetag own">Your brand</span><h3>Your best video was made by someone you don't pay</h3><span class="shot"><img src="vid5.jpg" alt=""></span><p>@cleangirl.ari ran 41x her own median naming the dupe in the first two seconds. She has now broken out twice on you and has never taken a code. Of your 26 breakouts this week, 20 came from accounts under 150K.</p><a class="more" href="#">See all 26 &rarr;</a></div><div class="upd"><span class="lanetag comp">Competitor</span><h3>verrow picked up your format on Thursday</h3><span class="shot"><img src="vid9.jpg" alt=""></span><p>The shelf teardown started on you in August. This week verrow's version ran 61x and is still climbing, which usually means it reaches your creators next. Their 31 breakouts are the highest they have had this quarter.</p><a class="more" href="#">See what verrow did &rarr;</a></div><div class="upd"><span class="lanetag prod">Products</span><h3>The Vitamin C Serum is doing the work</h3><span class="shot"><img src="vid2.jpg" alt=""></span><p>12 breakouts across your four tracked products, and 8 of them were the serum. Night Cream got 2. Nobody posted about the cleanser at all.</p><a class="more" href="#">See all four products &rarr;</a></div><div class="card hotcard"><span class="clabel amber">What we would do next</span><span class="nx"><i>1</i>Give your creators the shelf teardown before verrow's version sets the reference.</span><span class="nx"><i>2</i>Answer the smell objection on your own account.</span><span class="nx"><i>3</i>The $12 dupe angle is running on linden. Expect it on you next.</span></div><div class="btnrow"><button type="button" class="btn btn-amber">Open the full week</button></div></div><div class="efoot"><p>Sent every Monday at 7am for everything you're watching: <b>solmere</b>, <b>verrow</b>, <b>linden</b>, and 4 products.</p><p><a href="#">Unsubscribe</a></p></div></div></article></section><section class="slot" id="e10"><div class="cap"><span class="capn">10</span><span class="capt">Card expiring</span><span class="capseq">Card declined</span><span class="captier t-plain">plain</span><span class="captr">Seven days before the card on file expires</span><span class="capnote">Now plain text. The whole dunning block goes plain. A designed card email reads as promotional and lands in Promotions, which is the one place these must never go. The timeline graphic is replaced by stating the two dates in a sentence.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Brand Beacon</b> hello@brandbeacon.io <span class="tm">Wed 6:00am</span></span><span class="sj">The card on file expires on 30 September</span><span class="pv">Thirty seconds now, or a failed charge on 9 October.</span></div><div class="body2 "><div class="plaintext"><p>The card ending 4241 expires on 30 September.</p><p>Your next charge is $99 for Growth on 9 October, so it will not go through unless the card is updated before then.</p><p>Update the card: <a class="textlink" href="#">brandbeacon.io</a></p></div></div></article></section><section class="slot" id="e11"><div class="cap"><span class="capn">11</span><span class="capt">Card declined</span><span class="capseq">Card declined</span><span class="captier t-plain">plain</span><span class="captr">The charge fails</span><span class="capnote">Now plain text. Also the cheapest to skip for now: Stripe already sends 10 to 13. If we turn Stripe's on this week these four are covered, and they must be switched off in the same deploy that ships ours or customers get two emails about one declined card.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Brand Beacon</b> hello@brandbeacon.io <span class="tm">Thu 6:12am</span></span><span class="sj">The card ending 4241 was declined</span><span class="pv">Nothing has changed on the account. Next attempt is 13 October.</span></div><div class="body2 "><div class="plaintext"><p>The $99 charge for Growth did not go through.</p><p>Nothing on your account has changed. We will try the card again on 13 October, and if that fails the account locks on 19 October.</p><p>Update the card: <a class="textlink" href="#">brandbeacon.io</a></p></div></div></article></section><section class="slot" id="e12"><div class="cap"><span class="capn">12</span><span class="capt">Second attempt failed</span><span class="capseq">Card declined</span><span class="captier t-plain">plain</span><span class="captr">Four days after the first failure</span><span class="capnote">Now plain text.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Brand Beacon</b> hello@brandbeacon.io <span class="tm">Mon 6:12am</span></span><span class="sj">Still no luck with the card ending 4241</span><span class="pv">If it's still failing on 19 October, the Monday email stops.</span></div><div class="body2 "><div class="plaintext"><p>Two attempts on the card ending 4241 have now failed, on 9 October and 13 October.</p><p>The account locks on 19 October. When it does, the Monday email stops and your searches stop refreshing.</p><p>Update the card: <a class="textlink" href="#">brandbeacon.io</a></p></div></div></article></section><section class="slot" id="e13"><div class="cap"><span class="capn">13</span><span class="capt">Locks tomorrow</span><span class="capseq">Card declined</span><span class="captier t-plain">plain</span><span class="captr">Day nine, the day before the lock</span><span class="capnote">Now plain text. The 30 day keep window is the most important sentence in the sequence, so it is stated rather than drawn.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Brand Beacon</b> hello@brandbeacon.io <span class="tm">Sat 6:12am</span></span><span class="sj">solmere locks tomorrow</span><span class="pv">Searches and readouts are kept for 30 days.</span></div><div class="body2 "><div class="plaintext"><p>Tomorrow the account locks and your searches stop running.</p><p>Your saved searches and readouts are kept for 30 days after that, until 18 November. A card inside that window turns everything back on where you left it.</p><p>Update the card: <a class="textlink" href="#">brandbeacon.io</a></p></div></div></article></section><section class="slot" id="e14"><div class="cap"><span class="capn">14</span><span class="capt">What you missed</span><span class="capseq">Trial ended</span><span class="captier t-light">light</span><span class="captr">14 days after a trial ends, only if new breakouts exist</span><span class="capnote">Now light. The browsable grid of six greyed thumbnails is gone, and with it the server side greyscale job it needed. A locked row is live text with a lock chip, which is what the build research recommended anyway and what Outlook can actually render.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Brand Beacon</b> hello@brandbeacon.io <span class="tm">Tue 8:30am</span></span><span class="sj">You missed 9 viral breakouts on solmere</span><span class="pv">And three creators are having a very good month without you.</span></div><div class="body2 warm"><div class="inkbar"><span class="logo"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></span><span class="bn">Brand Beacon</span><span class="be">Since you left</span></div><div class="numhero deep"><span class="nhk">Since your trial ended</span><span class="nhv">9 <em>missed</em></span><span class="nhs">Viral breakouts on solmere in the last fortnight. You can see them, you can't open them.</span></div><div class="pad lift"><div class="card"><span class="vrow locked"><span class="bd"><strong>I only kept three things from the shelf</strong><span class="meta">@thatskinguy &middot; 1.1M views</span></span><span class="lockchip">&#128274; 34x</span></span><span class="vrow locked"><span class="bd"><strong>The dupe test, six weeks in</strong><span class="meta">@cleangirl.ari &middot; 890K views</span></span><span class="lockchip">&#128274; 27x</span></span><span class="vrow locked"><span class="bd"><strong>Nobody talks about the smell</strong><span class="meta">@shelfie.sara &middot; 640K views</span></span><span class="lockchip">&#128274; 19x</span></span></div><div class="card"><span class="clabel">Creators having a month in your category</span><span class="cro"><span class="av pink">CA</span><span class="bd"><strong>@cleangirl.ari</strong><span>148K &middot; 4 breakouts this month</span></span><span class="score hot">4</span></span><span class="cro"><span class="av green">TS</span><span class="bd"><strong>@thatskinguy</strong><span>62K &middot; 3 breakouts, none for you</span></span><span class="score hot">3</span></span><span class="cro"><span class="av blue">MJ</span><span class="bd"><strong>@mel.does.skincare</strong><span>9K &middot; 3 breakouts, rising</span></span><span class="score">3</span></span></div><div class="btnrow"><button type="button" class="btn btn-amber">See what you missed</button></div></div><div class="efoot"><p>Sent because your trial ended without a plan. <a href="#">Unsubscribe</a></p></div></div></article></section><section class="slot" id="e15"><div class="cap"><span class="capn">15</span><span class="capt">Your competitors didn't stop</span><span class="capseq">Trial ended</span><span class="captier t-full">full</span><span class="captr">30 days after a trial ends</span><span class="capnote">Refined. The FOMO is the competitor and the category. Now carries the two competitor breakouts they cannot open, a category meter reading 0 of 88, and the format that is spreading.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Brand Beacon</b> hello@brandbeacon.io <span class="tm">Wed 4:47pm</span></span><span class="sj">verrow had 61x last week</span><span class="pv">Your category ran 1,410 videos while you were away.</span></div><div class="body2 warm"><div class="inkbar"><span class="logo"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></span><span class="bn">Brand Beacon</span><span class="be">Your category</span></div><div class="numhero"><span class="nhk">verrow, last week</span><span class="nhv">61<em>x</em></span><span class="nhs">One video ran 61 times the creator's own median. It names verrow and not you.</span></div><div class="pad"><div class="hd"><h1>Your category<span class="serif">didn't slow down.</span></h1></div><div class="sband"><div><span class="l">Videos in your category</span><span class="v">1,410 </span></div><div><span class="l">Breakouts</span><span class="v">88 </span></div><div><span class="l">You saw</span><span class="v">0 </span></div></div><div class="vs"><div class="vshead"><span class="t">Breakouts, last 30 days</span><span class="o">0 of 88</span></div><div class="vsrow"><span class="vslabel">Your category</span><span class="vstrack"><span class="vsfill hot" style="width:100%"></span></span><span class="vsval">88</span></div><div class="vsrow"><span class="vslabel">You saw</span><span class="vstrack"><span class="vsfill" style="width:0%"></span></span><span class="vsval">0</span></div><p class="vsnote">Nothing was watching solmere for the last month, so none of it reached you.</p></div><div class="card"><div class="lane"><span class="chip comp">Competitor</span><span class="n">verrow, linden &middot; 31 breakouts</span></div><span class="vrow locked"><span class="vc"><img src="vid9.jpg" alt=""></span><span class="bd"><strong>Ranked every drugstore serum by how much it stung</strong><span class="meta">verrow &middot; @shelfie.sara &middot; 1.9M views</span></span><span class="lockchip">&#128274; 61x</span></span><span class="vrow locked"><span class="vc"><img src="vid7.jpg" alt=""></span><span class="bd"><strong>The $12 version of the $80 bottle</strong><span class="meta">linden &middot; @thatskinguy &middot; 740K views</span></span><span class="lockchip">&#128274; 19x</span></span></div><div class="aib"><span class="aibi">&#9679;</span><p>The format spreading right now is the <b>shelf teardown</b>. It started on you in August, verrow picked it up in September, and it is now running across the category.</p></div><div class="btnrow"><button type="button" class="btn btn-amber">Turn it back on</button></div></div><div class="efoot"><p>Sent because your trial ended without a plan. <a href="#">Unsubscribe</a></p></div></div></article></section><section class="slot" id="e16"><div class="cap"><span class="capn">16</span><span class="capt">Last one about the trial</span><span class="capseq">Trial ended</span><span class="captier t-plain">plain</span><span class="captr">45 days after a trial ends</span><span class="capnote">Now plain text. This is the goodbye, and the one email in the set where looking like it was typed by hand is the entire point.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Brand Beacon</b> hello@brandbeacon.io <span class="tm">Fri 9:00am</span></span><span class="sj">Last one about the trial</span><span class="pv">After this you only hear from us when something breaks out on solmere.</span></div><div class="body2 "><div class="plaintext"><p>This is the last email about your trial. From here you will hear from us once a quarter, and only when something on solmere has broken out.</p><p>Before that, here is what your eight days turned up.</p><p>Searches run: 6<br>Videos found: 412<br>Viral breakouts: 58</p><p>The best thing you found was &ldquo;She stopped recommending the dupe, on camera&rdquo; by @cleangirl.ari. 2.8M views against a 68K median. 41x.</p><p>All 58 are still in your account, and they stay there whether you come back or not. Plans start at $99 a month.</p><p>See the plans: <a class="textlink" href="#">brandbeacon.io</a><br>Open your readouts: <a class="textlink" href="#">brandbeacon.io</a></p><p>[First name]<br>Brand Beacon</p></div></div></article></section><section class="slot" id="e17"><div class="cap"><span class="capn">17</span><span class="capt">The quarter you missed</span><span class="capseq">Cancelled accounts</span><span class="captier t-full">full</span><span class="captr">Every quarter, to cancelled accounts</span><span class="capnote">Now opens on its own chart, after Zillow, instead of leading with a stat strip. The biggest week of the quarter landed five weeks after they cancelled, and the email says so.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Brand Beacon</b> hello@brandbeacon.io <span class="tm">Mon 8:00am</span></span><span class="sj">solmere, last quarter: 71 viral breakouts</span><span class="pv">You cancelled in June. Here's what happened on your brand since.</span></div><div class="body2 ink"><div class="inkbar"><span class="logo"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></span><span class="bn">Brand Beacon</span><span class="be">The quarter you missed</span></div><div class="datahero badged"><span class="k">Since you cancelled in June</span><h1>71 viral breakouts on solmere,<span class="serif">and nobody there saw them.</span></h1><div><div class="qbars"><i class="" style="height:22%"></i><i class="" style="height:31%"></i><i class="" style="height:18%"></i><i class="" style="height:44%"></i><i class="hi" style="height:76%"></i><i class="" style="height:38%"></i><i class="" style="height:29%"></i><i class="" style="height:52%"></i><i class="hi" style="height:88%"></i><i class="" style="height:41%"></i><i class="" style="height:26%"></i><i class="" style="height:34%"></i><i class="hi" style="height:71%"></i></div><div class="qcap"><span>13 weeks</span><span>Two weeks did most of it</span></div></div><p>Week 9 was the biggest week solmere has ever had on TikTok. It happened five weeks after you cancelled.</p><span class="sticker"><b>88</b><span>biggest week ever</span></span></div><div class="pad"><div class="sband"><div><span class="l">Videos found</span><span class="v">1,104 </span></div><div><span class="l">Viral breakouts</span><span class="v">71 </span></div><div><span class="l">Creators posting</span><span class="v">212 </span></div></div><div class="card"><span class="clabel">The three biggest</span><span class="vrow"><span class="rk">01</span><span class="vc"><img src="vid5.jpg" alt=""></span><span class="bd"><strong>She stopped recommending the dupe, on camera</strong><span class="meta">@cleangirl.ari &middot; 2.8M views</span></span><span class="score hot">41x</span></span><span class="vrow"><span class="rk">02</span><span class="vc"><img src="vid2.jpg" alt=""></span><span class="bd"><strong>I only kept three things from the shelf</strong><span class="meta">@thatskinguy &middot; 1.1M views</span></span><span class="score">34x</span></span><span class="vrow"><span class="rk">03</span><span class="vc"><img src="vid4.jpg" alt=""></span><span class="bd"><strong>Shelf teardown: what is worth the money</strong><span class="meta">@shelfie.sara &middot; 1.4M views</span></span><span class="score">28x</span></span></div><div class="btnrow"><button type="button" class="btn btn-amber">Turn solmere back on</button></div></div><div class="efoot"><p>Sent once a quarter to closed accounts. <a href="#">Unsubscribe</a></p></div></div></article></section></main>
-
-</body>
-</html>
+<nav class="nav"><div class="ng"><span class="nh">1 &middot; Free never-searched</span><a href="#1a"><b>1a</b>D0 plus about 3 hours</a><a href="#1b"><b>1b</b>D2, skip if searched</a></div><div class="ng"><span class="nh">2 &middot; Free results-ready</span><a href="#2a"><b>2a</b>Immediate</a><a href="#2b"><b>2b</b>D1</a><a href="#2c"><b>2c</b>D3</a></div><div class="ng"><span class="nh">3 &middot; 8-day trial</span><a href="#3a"><b>3a</b>D0</a><a href="#3b"><b>3b</b>D2</a><a href="#3c"><b>3c</b>D5</a><a href="#3d"><b>3d</b>D7</a></div><div class="ng"><span class="nh">4 &middot; Dunning</span><a href="#4a"><b>4a</b>D0</a><a href="#4b"><b>4b</b>D2</a><a href="#4c"><b>4c</b>D5</a></div><div class="ng"><span class="nh">5 &middot; Trial-expired winback</span><a href="#5a"><b>5a</b>D1</a><a href="#5b"><b>5b</b>D7</a><a href="#5c"><b>5c</b>D21</a></div><div class="ng"><span class="nh">6 &middot; Paid-churn winback</span><a href="#6a"><b>6a</b>D3</a><a href="#6b"><b>6b</b>D14</a><a href="#6c"><b>6c</b>D45</a></div><div class="ng"><span class="nh">7 &middot; Ongoing breakout videos</span><a href="#7a"><b>7a</b>Weekly</a></div><div class="ng"><span class="nh">8 &middot; Bi-weekly brand / product pack</span><a href="#8a"><b>8a</b>Every 2 weeks</a></div><div class="ng"><span class="nh">+ &middot; Beyond the twenty</span><a href="#4z"><b>4z</b>Seven days before the card expires</a><a href="#6d"><b>6d</b>Quarterly, after 6c</a></div></nav>
+<main class="board"><section class="slot" id="1a"><div class="cap"><span class="cid">1a</span><span class="ct">D0 plus about 3 hours</span><span class="cf">Free never-searched</span><span class="cw">Tue 2:41pm</span><span class="cn2">Ivan's 1a explains the mechanic. Ours explains why the mechanic is different from every other tool, because that is the only reason to run the search rather than keep meaning to.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Ivan</b> ivan@brandbeacon.io <span class="tm">Tue 2:41pm</span></span><span class="sj">Your one free search is still sitting there</span></div><div class="body2"><div class="mh"><span class="wm">Brand Beacon</span><span class="ml">Your account</span></div><div class="pad"><p class="b">Hi <span class="tg">{{first_name}}</span>,</p><p class="b">Thanks for signing up.</p><p class="b">You have one free search on BrandBeacon. Type in a brand or a product and we go and find the TikTok videos posted about it, then rank them by how far each one beat the account that posted it. That gap is the Breakout Score.</p><p class="b">Most tools rank by views, which mostly finds you the biggest accounts. We rank by how far a video went past what its own account normally does, because that is the one where the video did the work rather than the following.</p><div class="ctar"><button type="button" class="btn btn-amber">Run it here</button><span class="url"><span class="tg">{{app_url}}</span></span></div><p class="sg">Ivan</p></div><div class="ft"><p>Sent because you created a BrandBeacon account.</p></div></div></article></section><section class="slot" id="1b"><div class="cap"><span class="cid">1b</span><span class="ct">D2, skip if searched</span><span class="cf">Free never-searched</span><span class="cw">Thu 8:05am</span><span class="cn2">Ivan's numbers, kept exactly. What we add is the sentence that turns the example into an instruction: the transferable part is the hook, not the view count.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Ivan</b> ivan@brandbeacon.io <span class="tm">Thu 8:05am</span></span><span class="sj">4.6M views from an account that usually gets 10k</span></div><div class="body2"><div class="mh"><span class="wm">Brand Beacon</span><span class="ml">An example</span></div><div class="pad"><p class="b">Hi <span class="tg">{{first_name}}</span>,</p><p class="b">One example, in case it makes this clearer.</p><p class="b">A beauty video did about 4.6 million views. The creator who posted it usually sits around ten thousand. That is roughly 460 times their own normal.</p><p class="b">A big account doing a million views tells you nothing, because it always does a million. A small account doing a million tells you the hook, the format or the angle carried it. That is the part you can brief to your own creators.</p><div class="ctar"><button type="button" class="btn btn-amber">Your free search is still open</button><span class="url"><span class="tg">{{app_url}}</span></span></div><p class="sg">Ivan</p></div><div class="ft"><p>Sent because your free search is still unused.</p></div></div></article></section><section class="slot" id="2a"><div class="cap"><span class="cid">2a</span><span class="ct">Immediate</span><span class="cf">Free results-ready</span><span class="cw">Tue 2:14pm</span><span class="cn2">The one difference from Ivan's 2a: the three videos are named in the email rather than waiting behind the link. This is the moment the product proves itself, and a list of three real titles proves it faster than a paragraph describing what a list would contain.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Ivan</b> ivan@brandbeacon.io <span class="tm">Tue 2:14pm</span></span><span class="sj"><span class="tg">{{search_term}}</span>: <span class="tg">{{breakout_count}}</span> viral breakouts found</span></div><div class="body2"><div class="mh"><span class="wm">Brand Beacon</span><span class="ml">Your results</span></div><div class="pad"><p class="b">Hi <span class="tg">{{first_name}}</span>,</p><p class="b">You searched <span class="tg">{{search_term}}</span>. We found <span class="tg">{{videos_found}}</span> videos, and <span class="tg">{{breakout_count}}</span> of them were viral breakouts, meaning they beat the average of the account that posted them.</p><p class="b">The ones that broke out hardest:</p><p class="rw"><b>01 <span class="tg">{{breakout_title_1}}</span></b><br><span class="tg">{{breakout_handle_1}}</span> &middot; <span class="tg">{{breakout_views_1}}</span> views &middot; <span class="tg">{{breakout_score_1}}</span>x</p><p class="rw"><b>02 <span class="tg">{{breakout_title_2}}</span></b><br><span class="tg">{{breakout_handle_2}}</span> &middot; <span class="tg">{{breakout_views_2}}</span> views &middot; <span class="tg">{{breakout_score_2}}</span>x</p><p class="rw"><b>03 <span class="tg">{{breakout_title_3}}</span></b><br><span class="tg">{{breakout_handle_3}}</span> &middot; <span class="tg">{{breakout_views_3}}</span> views &middot; <span class="tg">{{breakout_score_3}}</span>x</p><p class="b">Start at the top. A high Breakout Score means the video did far more than that account normally manages, so whatever is in it, the opening line, the format or the angle, is doing the work. That is what transfers to your own creators.</p><div class="ctar"><button type="button" class="btn btn-amber">Open your <span class="tg">{{search_term}}</span> results</button><span class="url"><span class="tg">{{results_url}}</span></span></div><p class="b">We’re a small team building BrandBeacon with brand and social teams like yours. If this was useful, or if something felt off, just reply and tell me.</p><p class="sg">Ivan</p></div><div class="ft"><p>You ran one free search at brandbeacon.io.</p></div></div></article></section><section class="slot" id="2b"><div class="cap"><span class="cid">2b</span><span class="ct">D1</span><span class="cf">Free results-ready</span><span class="cw">Wed 9:12am</span><span class="cn2">Same job as Ivan's 2b. The trial stays a sentence rather than a second button, because at day one it is an offer and not the ask.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Ivan</b> ivan@brandbeacon.io <span class="tm">Wed 9:12am</span></span><span class="sj"><span class="tg">{{search_term}}</span>, a second look</span></div><div class="body2"><div class="mh"><span class="wm">Brand Beacon</span><span class="ml">A second look</span></div><div class="pad"><p class="b">Hi <span class="tg">{{first_name}}</span>,</p><p class="b">I went back through your <span class="tg">{{search_term}}</span> results.</p><p class="b">The useful thing is usually not any single video. It is that the top few by Breakout Score tend to share something: the same opening line, the same format, or the same angle. Once you have seen it twice it stops being luck and starts being something you can brief.</p><div class="ctar"><button type="button" class="btn btn-amber">Open the top few and look for what they have in common</button><span class="url"><span class="tg">{{results_url}}</span></span></div><p class="b">If one search was worth it, eight days gets you the rest: <span class="tg">{{trial_url}}</span></p><p class="sg">Ivan</p></div><div class="ft"><p>Sent one day after your results were ready.</p></div></div></article></section><section class="slot" id="2c"><div class="cap"><span class="cid">2c</span><span class="ct">D3</span><span class="cf">Free results-ready</span><span class="cw">Fri 9:30am</span><span class="cn2">Weights swap on the last send: the trial becomes the button, the results drop to a line. Naming what the free search cannot do is the whole argument here.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Ivan</b> ivan@brandbeacon.io <span class="tm">Fri 9:30am</span></span><span class="sj">Following up on your free search</span></div><div class="body2"><div class="mh"><span class="wm">Brand Beacon</span><span class="ml">Last note</span></div><div class="pad"><p class="b">Hi <span class="tg">{{first_name}}</span>,</p><p class="b">Last note from me on this.</p><p class="b">Your <span class="tg">{{search_term}}</span> results stay in your account either way: <span class="tg">{{results_url}}</span></p><p class="b">What the free search cannot do is run the next one. Your competitors, your other products, the category you are trying to keep an eye on. That is what opens on the 8-day trial.</p><div class="ctar"><button type="button" class="btn btn-amber">Try BrandBeacon for 8 days</button><span class="url"><span class="tg">{{trial_url}}</span></span></div><p class="b">If now is not the right time, no problem.</p><p class="sg">Ivan</p></div><div class="ft"><p>Last email in this sequence.</p></div></div></article></section><section class="slot" id="3a"><div class="cap"><span class="cid">3a</span><span class="ct">D0</span><span class="cf">8-day trial</span><span class="cw">Mon 11:06am</span><span class="cn2">Flow 3 is locked in Ivan's doc, so all four are his copy word for word. Identical to the same email on his board.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Ivan</b> ivan@brandbeacon.io <span class="tm">Mon 11:06am</span></span><span class="sj">You're on the 8-day trial</span></div><div class="body2"><div class="mh"><span class="wm">Brand Beacon</span><span class="ml">Day 1 of 8</span></div><div class="pad"><p class="day">Day 1 of 8</p><p class="b">Hi <span class="tg">{{first_name}}</span>,</p><p class="b">Welcome. You're on day 1 of your 8-day BrandBeacon trial.</p><p class="b">You can run more searches and you have unlocked video analysis: what’s working, what’s not, and some tips for you.</p><p class="b">Three searches worth running today:</p><ol class="ln"><li>Your own brand: what is already out there about you</li><li>Competitor brands: see what formats are working for your competitors and improve</li><li>Your products: what creators are saying about your product across brands</li></ol><div class="ctar"><button type="button" class="btn btn-amber">Start here</button><span class="url"><span class="tg">{{app_url}}</span></span></div><p class="sg">Ivan</p></div><div class="ft"><p>Day 1 of 8.</p></div></div></article></section><section class="slot" id="3b"><div class="cap"><span class="cid">3b</span><span class="ct">D2</span><span class="cf">8-day trial</span><span class="cw">Tue 7:40am</span><span class="cn2">Locked. Ivan's copy.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Ivan</b> ivan@brandbeacon.io <span class="tm">Tue 7:40am</span></span><span class="sj">How to use Breakout Score on your trial</span></div><div class="body2"><div class="mh"><span class="wm">Brand Beacon</span><span class="ml">Day 2 of 8</span></div><div class="pad"><p class="day">Day 2 of 8</p><p class="b">Hi <span class="tg">{{first_name}}</span>,</p><p class="b">Quick tip while your 8-day trial is open.</p><p class="b">Most TikTok accounts get about the same views on most posts. Sometimes one post gets way more than that account’s usual. BrandBeacon scores that jump. We call it Breakout Score.</p><p class="b">Start with the highest Breakout Score. Those videos show you what worked: the first line, the style, or the idea.</p><div class="ctar"><button type="button" class="btn btn-amber">Your workspace</button><span class="url"><span class="tg">{{app_url}}</span></span></div><p class="sg">Ivan</p></div><div class="ft"><p>Day 2 of 8.</p></div></div></article></section><section class="slot" id="3c"><div class="cap"><span class="cid">3c</span><span class="ct">D5</span><span class="cf">8-day trial</span><span class="cw">Fri 7:40am</span><span class="cn2">Locked. Ivan's copy.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Ivan</b> ivan@brandbeacon.io <span class="tm">Fri 7:40am</span></span><span class="sj">A few days left on your 8-day trial</span></div><div class="body2"><div class="mh"><span class="wm">Brand Beacon</span><span class="ml">Day 5 of 8</span></div><div class="pad"><p class="day">Day 5 of 8</p><p class="b">Hi <span class="tg">{{first_name}}</span>,</p><p class="b">Your 8-day trial ends in a few days.</p><p class="b">If you have not tried video analysis yet, here is what to do. Open your search results, click the video with the highest Breakout Score, then start video analysis.</p><p class="b">You get a plain breakdown of that one video:</p><ol class="ln"><li>Why it worked</li><li>What could be improved</li><li>What you should do next</li><li>The hook (how it starts, why it stops the scroll, and a few rewrites you can copy)</li><li>The transcript</li></ol><div class="ctar"><button type="button" class="btn btn-amber">Continue here</button><span class="url"><span class="tg">{{app_url}}</span></span></div><p class="sg">Ivan</p></div><div class="ft"><p>Day 5 of 8.</p></div></div></article></section><section class="slot" id="3d"><div class="cap"><span class="cid">3d</span><span class="ct">D7</span><span class="cf">8-day trial</span><span class="cw">Sun 9:00am</span><span class="cn2">Locked, so this is Ivan's copy. The one thing we would raise if it unlocks: this goes out the day before the card is charged and no email in the flow mentions a charge. One footer line fixes it and the value still leads.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Ivan</b> ivan@brandbeacon.io <span class="tm">Sun 9:00am</span></span><span class="sj">One breakout from <span class="tg">{{search_term}}</span></span></div><div class="body2"><div class="mh"><span class="wm">Brand Beacon</span><span class="ml">Day 7 of 8</span></div><div class="pad"><p class="day">Day 7 of 8</p><p class="b">Hi <span class="tg">{{first_name}}</span>,</p><p class="b">Quick one from your <span class="tg">{{search_term}}</span> results.</p><p class="b"><span class="tg">{{breakout_title}}</span> hit about <span class="tg">{{breakout_score}}</span>x what that creator usually does: <span class="tg">{{breakout_url}}</span></p><div class="ctar"><button type="button" class="btn btn-amber">Worth a look before your 8-day trial ends. Your workspace</button><span class="url"><span class="tg">{{app_url}}</span></span></div><p class="sg">Ivan</p></div><div class="ft"><p>Day 7 of 8.</p></div></div></article></section><section class="slot" id="4a"><div class="cap"><span class="cid">4a</span><span class="ct">D0</span><span class="cf">Dunning</span><span class="cw">Thu 6:12am</span><span class="cn2">Same as Ivan's, one word tighter. He wrote nothing has changed yet, which invites the reader to wonder what changes and when. Ours says nothing has changed, then gives the date.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Ivan</b> ivan@brandbeacon.io <span class="tm">Thu 6:12am</span></span><span class="sj">Your card did not go through</span></div><div class="body2"><div class="mh"><span class="wm">Brand Beacon</span><span class="ml">Billing</span></div><div class="pad tight"><p class="b">Hi <span class="tg">{{first_name}}</span>,</p><p class="b">Quick billing note.</p><p class="b">We tried to charge the card ending in <span class="tg">{{card_last4}}</span> for <span class="tg">{{amount}}</span> and the payment did not go through. Nothing on your BrandBeacon account has changed.</p><div class="ctar"><button type="button" class="btn btn-ink">Update your card</button><span class="url"><span class="tg">{{update_card_url}}</span></span></div><p class="b">We will try again on <span class="tg">{{next_attempt_date}}</span>.</p><p class="sg">Ivan</p></div><div class="ft"><p>Sent to the billing contact on your BrandBeacon account.</p></div></div></article></section><section class="slot" id="4b"><div class="cap"><span class="cid">4b</span><span class="ct">D2</span><span class="cf">Dunning</span><span class="cw">Sat 6:12am</span><span class="cn2">Ivan's says searches and alerts will pause. Ours names the two things the reader will actually notice missing, which is what makes a dunning email get opened.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Ivan</b> ivan@brandbeacon.io <span class="tm">Sat 6:12am</span></span><span class="sj">Still having trouble with your card</span></div><div class="body2"><div class="mh"><span class="wm">Brand Beacon</span><span class="ml">Billing</span></div><div class="pad tight"><p class="b">Hi <span class="tg">{{first_name}}</span>,</p><p class="b">We tried the card ending in <span class="tg">{{card_last4}}</span> again and it still did not go through.</p><p class="b">If it is not sorted by <span class="tg">{{lock_date}}</span>, your BrandBeacon account pauses. Your searches stop refreshing and the weekly breakout email stops with them.</p><div class="ctar"><button type="button" class="btn btn-ink">Update your card</button><span class="url"><span class="tg">{{update_card_url}}</span></span></div><p class="sg">Ivan</p></div><div class="ft"><p>Sent to the billing contact on your BrandBeacon account.</p></div></div></article></section><section class="slot" id="4c"><div class="cap"><span class="cid">4c</span><span class="ct">D5</span><span class="cf">Dunning</span><span class="cw">Tue 6:12am</span><span class="cn2">The retention promise is the reason this email works, so it gets its own paragraph rather than a trailing clause.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Ivan</b> ivan@brandbeacon.io <span class="tm">Tue 6:12am</span></span><span class="sj">Last chance before your account pauses</span></div><div class="body2"><div class="mh"><span class="wm">Brand Beacon</span><span class="ml">Billing</span></div><div class="pad tight"><p class="b">Hi <span class="tg">{{first_name}}</span>,</p><p class="b">Last note on this.</p><p class="b">If we cannot charge the card ending in <span class="tg">{{card_last4}}</span> by <span class="tg">{{lock_date}}</span>, your BrandBeacon account pauses.</p><p class="b">Your saved searches and results stay on file for <span class="tg">{{retention_days}}</span> days after that. A working card inside that window turns everything back on where you left it, so nothing is lost unless you leave it.</p><div class="ctar"><button type="button" class="btn btn-ink">Update your card</button><span class="url"><span class="tg">{{update_card_url}}</span></span></div><p class="sg">Ivan</p></div><div class="ft"><p>Sent to the billing contact on your BrandBeacon account.</p></div></div></article></section><section class="slot" id="5a"><div class="cap"><span class="cid">5a</span><span class="ct">D1</span><span class="cf">Trial-expired winback</span><span class="cw">Tue 9:00am</span><span class="cn2">Ivan's feedback closer, kept word for word. The one addition is that their work stays whether they come back or not, because the fear at this moment is losing it.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Ivan</b> ivan@brandbeacon.io <span class="tm">Tue 9:00am</span></span><span class="sj">Your 8-day trial ended</span></div><div class="body2"><div class="mh"><span class="wm">Brand Beacon</span><span class="ml">Trial ended</span></div><div class="pad"><p class="b">Hi <span class="tg">{{first_name}}</span>,</p><p class="b">Your BrandBeacon trial ended yesterday.</p><p class="b">New searches and video analysis are paused. Everything you already ran is still in your account and stays there whether you come back or not.</p><div class="ctar"><button type="button" class="btn btn-amber">Subscribe for full access</button><span class="url"><span class="tg">{{purchase_url}}</span></span></div><p class="b">We’re a small team and still shaping this. If you have a minute, reply and tell me what would have made BrandBeacon worth keeping.</p><p class="sg">Ivan</p></div><div class="ft"><p>Sent because your trial ended without a subscription.</p></div></div></article></section><section class="slot" id="5b"><div class="cap"><span class="cid">5b</span><span class="ct">D7</span><span class="cf">Trial-expired winback</span><span class="cw">Mon 8:30am</span><span class="cn2">Ivan's version says the category did not pause. Ours says the sharper version of the same thing: nothing is watching on your behalf right now, so none of it reaches you.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Ivan</b> ivan@brandbeacon.io <span class="tm">Mon 8:30am</span></span><span class="sj"><span class="tg">{{missed_count}}</span> breakouts since you left</span></div><div class="body2"><div class="mh"><span class="wm">Brand Beacon</span><span class="ml">Since you left</span></div><div class="pad"><p class="b">Hi <span class="tg">{{first_name}}</span>,</p><p class="b">Quick update.</p><p class="b">Since your trial ended we have seen about <span class="tg">{{missed_count}}</span> new breakout videos on <span class="tg">{{search_term}}</span>. Posts that did far more than the accounts behind them normally do.</p><p class="b">You can see that they exist. You cannot open them, and nobody on your side is watching <span class="tg">{{search_term}}</span> at the moment, so none of it is reaching you.</p><div class="ctar"><button type="button" class="btn btn-amber">Turn it back on</button><span class="url"><span class="tg">{{purchase_url}}</span></span></div><p class="sg">Ivan</p></div><div class="ft"><p>Sent because your trial ended without a subscription.</p></div></div></article></section><section class="slot" id="5c"><div class="cap"><span class="cid">5c</span><span class="ct">D21</span><span class="cf">Trial-expired winback</span><span class="cw">Mon 9:00am</span><span class="cn2">Ends on a receipt of what the trial found rather than on a price. Three numbers they earned, then the single best thing, then the door left open.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Ivan</b> ivan@brandbeacon.io <span class="tm">Mon 9:00am</span></span><span class="sj">Last note about your trial</span></div><div class="body2"><div class="mh"><span class="wm">Brand Beacon</span><span class="ml">Last note</span></div><div class="pad"><p class="b">Hi <span class="tg">{{first_name}}</span>,</p><p class="b">Last email from me about the trial.</p><p class="b">Here is what your eight days actually turned up: <span class="tg">{{trial_searches}}</span> searches, <span class="tg">{{trial_videos}}</span> videos, <span class="tg">{{trial_breakouts}}</span> viral breakouts.</p><p class="b">The strongest was <span class="tg">{{breakout_title}}</span>, at about <span class="tg">{{breakout_score}}</span>x what that creator usually does: <span class="tg">{{breakout_url}}</span></p><p class="b">All of it is still in your account.</p><div class="ctar"><button type="button" class="btn btn-amber">Pick the work back up</button><span class="url"><span class="tg">{{purchase_url}}</span></span></div><p class="b">If not, no problem. I will stop nudging about the trial after this.</p><p class="sg">Ivan</p></div><div class="ft"><p>Last email in this sequence.</p></div></div></article></section><section class="slot" id="6a"><div class="cap"><span class="cid">6a</span><span class="ct">D3</span><span class="cf">Paid-churn winback</span><span class="cw">Thu 9:00am</span><span class="cn2">Deliberately the twin of 5a. A cancelled subscriber and an expired trial are different people, but the first email to both should say the same calm thing.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Ivan</b> ivan@brandbeacon.io <span class="tm">Thu 9:00am</span></span><span class="sj">Your BrandBeacon subscription ended</span></div><div class="body2"><div class="mh"><span class="wm">Brand Beacon</span><span class="ml">Subscription ended</span></div><div class="pad"><p class="b">Hi <span class="tg">{{first_name}}</span>,</p><p class="b">Your subscription ended a few days ago.</p><p class="b">New searches and video analysis are paused. Everything you saved is still in your account if you want to look back.</p><div class="ctar"><button type="button" class="btn btn-amber">Subscribe for full access</button><span class="url"><span class="tg">{{purchase_url}}</span></span></div><p class="b">We’re a small team and still shaping this. If you have a minute, reply and tell me what would have made BrandBeacon worth keeping.</p><p class="sg">Ivan</p></div><div class="ft"><p>Sent because your subscription ended.</p></div></div></article></section><section class="slot" id="6b"><div class="cap"><span class="cid">6b</span><span class="ct">D14</span><span class="cf">Paid-churn winback</span><span class="cw">Mon 8:30am</span><span class="cn2">The competitor split is the addition. A paying customer who cancelled has competitors by name in the account already, so the email can say how many of the breakouts went to them instead.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Ivan</b> ivan@brandbeacon.io <span class="tm">Mon 8:30am</span></span><span class="sj"><span class="tg">{{missed_count}}</span> breakouts since you cancelled</span></div><div class="body2"><div class="mh"><span class="wm">Brand Beacon</span><span class="ml">Since you cancelled</span></div><div class="pad"><p class="b">Hi <span class="tg">{{first_name}}</span>,</p><p class="b">Quick update.</p><p class="b">Since you cancelled we have seen about <span class="tg">{{missed_count}}</span> new breakout videos on <span class="tg">{{search_term}}</span>, and <span class="tg">{{competitor_breakouts}}</span> of them named a competitor rather than you.</p><p class="b">Your category did not pause when you did.</p><div class="ctar"><button type="button" class="btn btn-amber">Put BrandBeacon back on it</button><span class="url"><span class="tg">{{purchase_url}}</span></span></div><p class="sg">Ivan</p></div><div class="ft"><p>Sent because your subscription ended.</p></div></div></article></section><section class="slot" id="6c"><div class="cap"><span class="cid">6c</span><span class="ct">D45</span><span class="cf">Paid-churn winback</span><span class="cw">Wed 9:00am</span><span class="cn2">The last email either way ends on a real find, not an offer. It is the strongest argument the product has and it costs nothing to make.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Ivan</b> ivan@brandbeacon.io <span class="tm">Wed 9:00am</span></span><span class="sj">Last note since you cancelled</span></div><div class="body2"><div class="mh"><span class="wm">Brand Beacon</span><span class="ml">Last note</span></div><div class="pad"><p class="b">Hi <span class="tg">{{first_name}}</span>,</p><p class="b">Last email from me about coming back.</p><p class="b">One of the stronger recent finds on <span class="tg">{{search_term}}</span> was <span class="tg">{{breakout_title}}</span>, at about <span class="tg">{{breakout_score}}</span>x what that creator usually does: <span class="tg">{{breakout_url}}</span></p><div class="ctar"><button type="button" class="btn btn-amber">Put that signal back in the workflow</button><span class="url"><span class="tg">{{purchase_url}}</span></span></div><p class="b">If not, no problem. I will stop nudging after this.</p><p class="sg">Ivan</p></div><div class="ft"><p>Last email in this sequence.</p></div></div></article></section><section class="slot" id="7a"><div class="cap"><span class="cid">7a</span><span class="ct">Weekly</span><span class="cf">Ongoing breakout videos</span><span class="cw">Mon 7:00am</span><span class="cn2">Ivan's 7a sends one video a week. Ours sends three lanes, brand, competitors and products, because a subscriber is paying to watch all three and an email that covers one of them makes the other two feel unwatched. Blocked on Product: needs a daily refresh and saved searches labelled by lane.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Ivan</b> ivan@brandbeacon.io <span class="tm">Mon 7:00am</span></span><span class="sj"><span class="tg">{{search_term}}</span>, week of <span class="tg">{{week_of}}</span>: <span class="tg">{{breakout_count}}</span> viral breakouts</span></div><div class="body2"><div class="mh"><span class="wm">Brand Beacon</span><span class="ml">Your week</span></div><div class="pad"><p class="b">Hi <span class="tg">{{first_name}}</span>,</p><p class="b"><span class="tg">{{breakout_count}}</span> viral breakouts on <span class="tg">{{search_term}}</span> this week, out of <span class="tg">{{videos_found}}</span> videos, from <span class="tg">{{new_creators}}</span> creators we had not seen before.</p><p class="b"><b>Your brand</b></p><p class="rw"><b>01 <span class="tg">{{own_title_1}}</span></b><br><span class="tg">{{own_handle_1}}</span> &middot; <span class="tg">{{own_views_1}}</span> &middot; <span class="tg">{{own_score_1}}</span>x</p><p class="rw"><b>02 <span class="tg">{{own_title_2}}</span></b><br><span class="tg">{{own_handle_2}}</span> &middot; <span class="tg">{{own_views_2}}</span> &middot; <span class="tg">{{own_score_2}}</span>x</p><p class="b"><b>Competitors you watch</b></p><p class="rw"><b>01 <span class="tg">{{comp_title_1}}</span></b><br><span class="tg">{{comp_brand_1}}</span> &middot; <span class="tg">{{comp_views_1}}</span> &middot; <span class="tg">{{comp_score_1}}</span>x</p><p class="rw"><b>02 <span class="tg">{{comp_title_2}}</span></b><br><span class="tg">{{comp_brand_2}}</span> &middot; <span class="tg">{{comp_views_2}}</span> &middot; <span class="tg">{{comp_score_2}}</span>x</p><p class="b"><b>Your products</b></p><p class="rw"><b>01 <span class="tg">{{prod_title_1}}</span></b><br><span class="tg">{{prod_name_1}}</span> &middot; <span class="tg">{{prod_views_1}}</span> &middot; <span class="tg">{{prod_score_1}}</span>x</p><p class="rw"><b>02 <span class="tg">{{prod_title_2}}</span></b><br><span class="tg">{{prod_name_2}}</span> &middot; <span class="tg">{{prod_views_2}}</span> &middot; <span class="tg">{{prod_score_2}}</span>x</p><p class="b">What we would do next:</p><ol class="ln"><li><span class="tg">{{action_1}}</span></li><li><span class="tg">{{action_2}}</span></li><li><span class="tg">{{action_3}}</span></li></ol><div class="ctar"><button type="button" class="btn btn-amber">Open the full week</button><span class="url"><span class="tg">{{results_url}}</span></span></div><p class="sg">Ivan</p></div><div class="ft"><p>Sent every week for everything you’re watching. You do not have to log in to read it.</p></div></div></article></section><section class="slot" id="8a"><div class="cap"><span class="cid">8a</span><span class="ct">Every 2 weeks</span><span class="cf">Bi-weekly brand / product pack</span><span class="cw">Thu 8:00am</span><span class="cn2">The takeaway line is the difference. Three videos and no reading of them is a list. Three videos and one sentence saying what they share is the thing worth forwarding, which is the point of this send.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Ivan</b> ivan@brandbeacon.io <span class="tm">Thu 8:00am</span></span><span class="sj"><span class="tg">{{search_term}}</span>: <span class="tg">{{breakout_count}}</span> breakouts worth a look</span></div><div class="body2"><div class="mh"><span class="wm">Brand Beacon</span><span class="ml">The pack</span></div><div class="pad"><p class="b">Hi <span class="tg">{{first_name}}</span>,</p><p class="b">Every two weeks I pick one brand or product and pull the breakout videos on it. This time: <span class="tg">{{search_term}}</span>.</p><p class="b"><span class="tg">{{breakout_count}}</span> videos did far more than the accounts behind them normally do. Three to start with:</p><p class="rw"><b>01 <span class="tg">{{breakout_title_1}}</span></b><br><span class="tg">{{breakout_handle_1}}</span> &middot; <span class="tg">{{breakout_views_1}}</span> views &middot; <span class="tg">{{breakout_score_1}}</span>x</p><p class="rw"><b>02 <span class="tg">{{breakout_title_2}}</span></b><br><span class="tg">{{breakout_handle_2}}</span> &middot; <span class="tg">{{breakout_views_2}}</span> views &middot; <span class="tg">{{breakout_score_2}}</span>x</p><p class="rw"><b>03 <span class="tg">{{breakout_title_3}}</span></b><br><span class="tg">{{breakout_handle_3}}</span> &middot; <span class="tg">{{breakout_views_3}}</span> views &middot; <span class="tg">{{breakout_score_3}}</span>x</p><p class="b">What they have in common: <span class="tg">{{takeaway}}</span></p><div class="ctar"><button type="button" class="btn btn-amber">Open the full list</button><span class="url"><span class="tg">{{results_url}}</span></span></div><p class="b">Not on BrandBeacon yet? <span class="tg">{{purchase_url}}</span></p><p class="sg">Ivan</p></div><div class="ft"><p>Sent every two weeks to everyone on the BrandBeacon list.</p></div></div></article></section><section class="slot" id="4z"><div class="cap"><span class="cid">4z</span><span class="ct">Seven days before the card expires</span><span class="cf">Beyond the twenty</span><span class="cw">Wed 6:00am</span><span class="cn2">Not in Ivan's twenty. Proposed, because the cheapest failed payment is the one that never happens and this email is three lines.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Ivan</b> ivan@brandbeacon.io <span class="tm">Wed 6:00am</span></span><span class="sj">The card on file expires on <span class="tg">{{card_expiry_date}}</span></span></div><div class="body2"><div class="mh"><span class="wm">Brand Beacon</span><span class="ml">Billing</span></div><div class="pad tight"><p class="b">Hi <span class="tg">{{first_name}}</span>,</p><p class="b">Quick billing note.</p><p class="b">The card ending in <span class="tg">{{card_last4}}</span> expires on <span class="tg">{{card_expiry_date}}</span>, and your next charge is <span class="tg">{{amount}}</span> on <span class="tg">{{next_charge_date}}</span>. It will not go through unless the card is updated before then.</p><div class="ctar"><button type="button" class="btn btn-ink">Update it here</button><span class="url"><span class="tg">{{update_card_url}}</span></span></div><p class="sg">Ivan</p></div><div class="ft"><p>Sent to the billing contact on your BrandBeacon account.</p></div></div></article></section><section class="slot" id="6d"><div class="cap"><span class="cid">6d</span><span class="ct">Quarterly, after 6c</span><span class="cf">Beyond the twenty</span><span class="cw">Mon 8:00am</span><span class="cn2">Not in Ivan's twenty. Proposed, because after 6c the address goes quiet forever and we still know what they were watching. Depends on searches continuing to run after cancellation.</span></div><article class="mail"><div class="inbox"><span class="fr"><b>Ivan</b> ivan@brandbeacon.io <span class="tm">Mon 8:00am</span></span><span class="sj"><span class="tg">{{search_term}}</span>, last quarter: <span class="tg">{{quarter_breakouts}}</span> viral breakouts</span></div><div class="body2"><div class="mh"><span class="wm">Brand Beacon</span><span class="ml">The quarter you missed</span></div><div class="pad"><p class="b">Hi <span class="tg">{{first_name}}</span>,</p><p class="b">You cancelled in <span class="tg">{{cancel_month}}</span>. Since then there have been <span class="tg">{{quarter_breakouts}}</span> viral breakouts on <span class="tg">{{search_term}}</span>, across <span class="tg">{{quarter_videos}}</span> videos and <span class="tg">{{quarter_creators}}</span> creators.</p><p class="b">The biggest week of the quarter was <span class="tg">{{peak_week}}</span>. It happened after you left.</p><p class="b">I will send this once a quarter and only when there is something to report.</p><div class="ctar"><button type="button" class="btn btn-amber">Turn <span class="tg">{{search_term}}</span> back on</button><span class="url"><span class="tg">{{purchase_url}}</span></span></div><p class="sg">Ivan</p></div><div class="ft"><p>Sent once a quarter to closed accounts.</p></div></div></article></section></main>
+</body></html>
